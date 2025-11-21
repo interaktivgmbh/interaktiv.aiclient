@@ -1,0 +1,32 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="interaktiv.aiclient"
+    >
+
+  <genericsetup:registerProfile
+      name="default"
+      title="Interaktiv AI Client: Install"
+      description="Package to configure a new Interaktiv AI Client site"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/default"
+      />
+
+  <genericsetup:registerProfile
+      name="uninstall"
+      title="Interaktiv AI Client: Uninstall"
+      description="Uninstall Interaktiv AI Client setup."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/uninstall"
+      />
+
+  <!-- Hide Uninstall Profile-->
+  <utility
+      factory=".setuphandlers.HiddenProfiles"
+      name="interaktiv.aiclient"
+      />
+
+
+  <include package=".upgrades" />
+
+</configure>
