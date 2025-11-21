@@ -5,6 +5,11 @@
     i18n_domain="interaktiv.aiclient"
     >
 
-  <!-- -*- extra stuff goes here -*- -->
+  <browser:page
+      name="aiclient-controlpanel"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class=".client_settings.AIClientView"
+      permission="cmf.ManagePortal"
+      />
 
 </configure>

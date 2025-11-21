@@ -1,0 +1,9 @@
+<configure xmlns="http://namespaces.zope.org/zope">
+
+  <subscriber
+      for="interaktiv.aiclient.controlpanels.client_settings.IAIClientSettings
+           plone.registry.interfaces.IRecordModifiedEvent"
+      handler=".aiclient.aiclient_settings_modified"
+      />
+
+</configure>

@@ -19,8 +19,12 @@
   <include package=".controlpanels" />
   <include package=".indexers" />
   <include package=".serializers" />
+  <include package=".subscribers" />
   <include package=".vocabularies" />
 
-  <!-- -*- extra stuff goes here -*- -->
+  <utility
+      factory=".client.AIClient"
+      provides=".interfaces.IAIClient"
+      />
 
 </configure>

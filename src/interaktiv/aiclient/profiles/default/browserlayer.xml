@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layers>
-  <layer interface="interaktiv.aiclient.interfaces.IBrowserLayer"
+  <layer interface="interaktiv.aiclient.interfaces.IInteraktivAIClientBrowserLayer"
          name="interaktiv.aiclient"
   />
 </layers>
