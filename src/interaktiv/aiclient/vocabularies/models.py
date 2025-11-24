@@ -15,7 +15,7 @@ from zope.schema.vocabulary import SimpleVocabulary
 import requests
 
 
-def does_model_quality(model: Dict[str, Any]) -> bool:
+def does_model_qualify(model: Dict[str, Any]) -> bool:
     architecture: Dict[str, Any] = model.get("architecture", {})
 
     # make sure the model supports image and text input
@@ -44,7 +44,7 @@ def get_openrouter_models() -> List:
             models = data["data"]
 
             # return only relevant models
-            qualified_models = filter(does_model_quality, models)
+            qualified_models = filter(does_model_qualify, models)
             return list(qualified_models)
         except HTTPError as e:
             logger.log(
