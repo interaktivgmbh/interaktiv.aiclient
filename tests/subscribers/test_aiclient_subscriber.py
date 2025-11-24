@@ -15,8 +15,12 @@ class TestAIClientSubscriber:
         assert ai_client._selected_model is None
 
         # do it
-        api.portal.set_registry_record("interaktiv.aiclient.openrouter_api_key", "api_key")
-        api.portal.set_registry_record("interaktiv.aiclient.openrouter_model", "google/gemini-2.5-flash-image")
+        api.portal.set_registry_record(
+            "interaktiv.aiclient.openrouter_api_key", "api_key"
+        )
+        api.portal.set_registry_record(
+            "interaktiv.aiclient.openrouter_model", "google/gemini-2.5-flash-image"
+        )
 
         # post condition
         assert ai_client._client is not None

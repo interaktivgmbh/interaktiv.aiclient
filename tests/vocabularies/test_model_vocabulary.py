@@ -1,8 +1,9 @@
-import requests
-
 from interaktiv.aiclient.vocabularies.models import model_vocabulary
-from plone.app.testing import TEST_USER_ID, setRoles
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
 from unittest import mock
+
+import requests
 
 
 SAMPLE_RESPONSE = {
@@ -16,15 +17,11 @@ SAMPLE_RESPONSE = {
             "description": "OpenAI's flagship model, GPT-4 is a large-scale multimodal language model capable of solving difficult problems with greater accuracy than previous models due to its broader general knowledge and advanced reasoning capabilities. Training data: up to Sep 2021.",
             "context_length": 8191,
             "architecture": {
-                "modality": "text-\u003Etext",
-                "input_modalities": [
-                    "text"
-                ],
-                "output_modalities": [
-                    "text"
-                ],
+                "modality": "text-\u003etext",
+                "input_modalities": ["text"],
+                "output_modalities": ["text"],
                 "tokenizer": "GPT",
-                "instruct_type": None
+                "instruct_type": None,
             },
             "pricing": {
                 "prompt": "0.00003",
@@ -32,12 +29,12 @@ SAMPLE_RESPONSE = {
                 "request": "0",
                 "image": "0",
                 "web_search": "0",
-                "internal_reasoning": "0"
+                "internal_reasoning": "0",
             },
             "top_provider": {
                 "context_length": 8191,
                 "max_completion_tokens": 4096,
-                "is_moderated": True
+                "is_moderated": True,
             },
             "per_request_limits": None,
             "supported_parameters": [
@@ -54,11 +51,9 @@ SAMPLE_RESPONSE = {
                 "tool_choice",
                 "tools",
                 "top_logprobs",
-                "top_p"
+                "top_p",
             ],
-            "default_parameters": {
-
-            }
+            "default_parameters": {},
         },
         {
             "id": "google/gemini-2.5-flash-image",
@@ -66,20 +61,14 @@ SAMPLE_RESPONSE = {
             "hugging_face_id": "",
             "name": "Google: Gemini 2.5 Flash Image (Nano Banana)",
             "created": 1759870431,
-            "description": "Gemini 2.5 Flash Image, a.k.a. \"Nano Banana,\" is now generally available. It is a state of the art image generation model with contextual understanding. It is capable of image generation, edits, and multi-turn conversations. Aspect ratios can be controlled with the [image_config API Parameter](https://openrouter.ai/docs/features/multimodal/image-generation#image-aspect-ratio-configuration)",
+            "description": 'Gemini 2.5 Flash Image, a.k.a. "Nano Banana," is now generally available. It is a state of the art image generation model with contextual understanding. It is capable of image generation, edits, and multi-turn conversations. Aspect ratios can be controlled with the [image_config API Parameter](https://openrouter.ai/docs/features/multimodal/image-generation#image-aspect-ratio-configuration)',
             "context_length": 32768,
             "architecture": {
-                "modality": "text+image-\u003Etext+image",
-                "input_modalities": [
-                    "image",
-                    "text"
-                ],
-                "output_modalities": [
-                    "image",
-                    "text"
-                ],
+                "modality": "text+image-\u003etext+image",
+                "input_modalities": ["image", "text"],
+                "output_modalities": ["image", "text"],
                 "tokenizer": "Gemini",
-                "instruct_type": None
+                "instruct_type": None,
             },
             "pricing": {
                 "prompt": "0.0000003",
@@ -87,12 +76,12 @@ SAMPLE_RESPONSE = {
                 "request": "0",
                 "image": "0.001238",
                 "web_search": "0",
-                "internal_reasoning": "0"
+                "internal_reasoning": "0",
             },
             "top_provider": {
                 "context_length": 32768,
                 "max_completion_tokens": 32768,
-                "is_moderated": False
+                "is_moderated": False,
             },
             "per_request_limits": None,
             "supported_parameters": [
@@ -101,14 +90,14 @@ SAMPLE_RESPONSE = {
                 "seed",
                 "structured_outputs",
                 "temperature",
-                "top_p"
+                "top_p",
             ],
             "default_parameters": {
                 "temperature": None,
                 "top_p": None,
-                "frequency_penalty": None
-            }
-        }
+                "frequency_penalty": None,
+            },
+        },
     ]
 }
 

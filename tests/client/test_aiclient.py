@@ -1,10 +1,11 @@
-import pytest
-
-from unittest import mock
-from interaktiv.aiclient.client import AIClient, AIClientInitializationError
+from interaktiv.aiclient.client import AIClient
+from interaktiv.aiclient.client import AIClientInitializationError
 from interaktiv.aiclient.interfaces import IAIClient
 from plone import api
+from unittest import mock
 from zope.component import getUtility
+
+import pytest
 
 
 class TestAIClient:
@@ -15,7 +16,9 @@ class TestAIClient:
         with pytest.raises(AIClientInitializationError):
             ai_client.reload()
 
-        api.portal.set_registry_record("interaktiv.aiclient.openrouter_api_key", "api_key")
+        api.portal.set_registry_record(
+            "interaktiv.aiclient.openrouter_api_key", "api_key"
+        )
 
         # this should not raise
         ai_client.reload()
@@ -40,8 +43,12 @@ class TestAIClient:
 
         ai_client: AIClient = getUtility(IAIClient)
 
-        api.portal.set_registry_record("interaktiv.aiclient.openrouter_api_key", "api_key")
-        api.portal.set_registry_record("interaktiv.aiclient.openrouter_model", "google/gemini-2.5-flash-image")
+        api.portal.set_registry_record(
+            "interaktiv.aiclient.openrouter_api_key", "api_key"
+        )
+        api.portal.set_registry_record(
+            "interaktiv.aiclient.openrouter_model", "google/gemini-2.5-flash-image"
+        )
 
         # do it
         res = ai_client.call([{"role": "user", "content": "Hello!"}])
