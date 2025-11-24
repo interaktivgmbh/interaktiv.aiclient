@@ -31,11 +31,13 @@ def does_model_quality(model: Dict[str, Any]) -> bool:
 
 def get_openrouter_models() -> List:
     registry: Registry = getUtility(IRegistry)
-    api_url: str = registry.get("interaktiv.aiclient.openrouter_models_api_url")
+    api_url: str = registry.get("interaktiv.aiclient.openrouter_api_url")
 
     if api_url:
         try:
-            res = requests.get(api_url)
+            models_api_url = f"{api_url}/models"
+
+            res = requests.get(models_api_url)
             res.raise_for_status()
 
             data = res.json()

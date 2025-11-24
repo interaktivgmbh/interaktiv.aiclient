@@ -1,4 +1,5 @@
 """Module where all interfaces, events and exceptions live."""
+from typing import List, Dict, Optional
 
 from zope.interface import Interface
 from zope.publisher.interfaces.browser import IDefaultBrowserLayer
@@ -10,6 +11,5 @@ class IInteraktivAIClientBrowserLayer(IDefaultBrowserLayer):
 
 class IAIClient(Interface):
     """AI Client Singleton"""
-
-    def call(self):
-        raise NotImplementedError
+    def call(self, messages: List[Dict[str, str]]) -> Optional[str]:
+        ...

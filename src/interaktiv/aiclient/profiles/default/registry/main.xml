@@ -3,6 +3,10 @@
           i18n:domain="interaktiv.aiclient"
 >
 
-  <!-- -*- extra stuff goes here -*- -->
+  <records interface="interaktiv.aiclient.controlpanels.client_settings.IAIClientSettings"
+           prefix="interaktiv.aiclient"
+  >
+    <value key="openrouter_api_url">https://openrouter.ai/api/v1</value>
+  </records>
 
 </registry>

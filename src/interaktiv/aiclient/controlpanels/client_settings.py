@@ -21,13 +21,13 @@ class IAIClientSettings(Interface):
         vocabulary="interaktiv.aiclient.model_vocabulary",
     )
 
-    openrouter_models_api_url = schema.TextLine(
-        title=_("OpenRouter models API URL"),
+    openrouter_api_url = schema.TextLine(
+        title=_("OpenRouter API URL"),
         description="",
-        default="https://openrouter.ai/api/v1/models",
+        default="https://openrouter.ai/api/v1",
         required=True,
     )
-    directives.omitted("openrouter_models_api_url")
+    directives.omitted("openrouter_api_url")
 
 
 class AIClientForm(RegistryEditForm):
