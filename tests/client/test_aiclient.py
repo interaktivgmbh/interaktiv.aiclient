@@ -54,4 +54,4 @@ class TestAIClient:
         res = ai_client.call([{"role": "user", "content": "Hello!"}])
 
         # post condition
-        res = "Hello world!"
+        assert res == "Hello world!"
