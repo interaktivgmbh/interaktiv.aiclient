@@ -47,11 +47,11 @@ def get_openrouter_models() -> List:
             qualified_models = filter(does_model_qualify, models)
             return list(qualified_models)
         except HTTPError as e:
-            logger.log(
+            logger.error(
                 f"Retrieving models from OpenRouter failed with status code {e.response.status_code}."
             )
         except (KeyError, JSONDecodeError):
-            logger.log(
+            logger.error(
                 f"Retrieving models from OpenRouter failed because the response body is invalid."
             )
 
