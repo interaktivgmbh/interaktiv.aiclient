@@ -1,6 +1,4 @@
 from interaktiv.aiclient.vocabularies.models import model_vocabulary
-from plone.app.testing import setRoles
-from plone.app.testing import TEST_USER_ID
 from unittest import mock
 
 import requests

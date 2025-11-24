@@ -1,8 +1,10 @@
 from interaktiv.aiclient import _
 from interaktiv.aiclient.interfaces import IAIClient
 from openai import OpenAI
+from openai.types.chat.chat_completion_message_param import ChatCompletionMessageParam
 from plone.registry import Registry
 from plone.registry.interfaces import IRegistry
+from typing import cast
 from typing import Dict
 from typing import List
 from typing import Optional
@@ -69,7 +71,7 @@ class AIClient:
 
         completion = self._client.chat.completions.create(
             model=self._selected_model,
-            messages=messages,  # type: ignore
+            messages=cast(list[ChatCompletionMessageParam], messages),
         )
 
         return completion.choices[0].message.content

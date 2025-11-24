@@ -29,7 +29,7 @@ def does_model_qualify(model: Dict[str, Any]) -> bool:
     return input_qualifies and output_qualifies
 
 
-def get_openrouter_models() -> List:
+def get_openrouter_models() -> List[Dict[str, Any]]:
     registry: Registry = getUtility(IRegistry)
     api_url: str = registry.get("interaktiv.aiclient.openrouter_api_url")
 
@@ -37,7 +37,7 @@ def get_openrouter_models() -> List:
         try:
             models_api_url = f"{api_url}/models"
 
-            res = requests.get(models_api_url)
+            res = requests.get(models_api_url, timeout=30)
             res.raise_for_status()
 
             data = res.json()
@@ -48,17 +48,19 @@ def get_openrouter_models() -> List:
             return list(qualified_models)
         except HTTPError as e:
             logger.error(
-                f"Retrieving models from OpenRouter failed with status code {e.response.status_code}."
+                f"Retrieving models from OpenRouter failed "
+                f"with status code {e.response.status_code}."
             )
         except (KeyError, JSONDecodeError):
             logger.error(
-                f"Retrieving models from OpenRouter failed because the response body is invalid."
+                "Retrieving models from OpenRouter failed "
+                "because the response body is invalid."
             )
 
     return []
 
 
-def format_model(model: Dict) -> Dict[str, str]:
+def format_model(model: Dict[str, Any]) -> Dict[str, str]:
     return {
         "value": model["id"],
         "token": model["id"],
