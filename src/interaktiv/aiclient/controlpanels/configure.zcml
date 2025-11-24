@@ -12,4 +12,9 @@
       permission="cmf.ManagePortal"
       />
 
+  <adapter
+      factory=".client_settings.AIClientConfigletPanel"
+      name="aiclient-controlpanel"
+      />
+
 </configure>
