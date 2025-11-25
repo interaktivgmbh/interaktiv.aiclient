@@ -75,3 +75,7 @@ class AIClient:
         )
 
         return completion.choices[0].message.content
+
+    @property
+    def selected_model(self):
+        return self._selected_model
