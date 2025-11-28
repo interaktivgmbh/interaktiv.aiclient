@@ -44,6 +44,7 @@ def get_openrouter_models() -> List[Dict[str, Any]]:
             models = data["data"]
 
             # return only relevant models
+            # TODO this check should happen inside alttextgenerator to keep aiclient generic
             qualified_models = filter(does_model_qualify, models)
             return list(qualified_models)
         except HTTPError as e:
@@ -68,6 +69,7 @@ def format_model(model: Dict[str, Any]) -> Dict[str, str]:
     }
 
 
+# noInspection PyUnusedLocal
 @provider(IVocabularyFactory)
 def model_vocabulary(context) -> SimpleVocabulary:
     models = get_openrouter_models()

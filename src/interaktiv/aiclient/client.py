@@ -19,8 +19,8 @@ class AIClientInitializationError(Exception):
 @implementer(IAIClient)
 class AIClient:
     def __init__(self) -> None:
-        self._client = None
-        self._selected_model = None
+        self._client: Optional[OpenAI] = None
+        self._selected_model: Optional[str] = None
         self.__on_failure = _("Failed to initialise AI Client.")
 
     def __ensure_initialised(self, force: bool = False) -> None:
@@ -56,7 +56,8 @@ class AIClient:
 
     def __ensure_model_selected(self) -> None:
         if not self._selected_model:
-            raise AIClientInitializationError(f"{self.__on_failure} No model selected.")
+            error_message = _("No model selected.")
+            raise AIClientInitializationError(f"{self.__on_failure} {error_message}")
 
     def reload(self) -> None:
         """
@@ -69,6 +70,7 @@ class AIClient:
         self.__ensure_initialised()
         self.__ensure_model_selected()
 
+        # TODO handle errors
         completion = self._client.chat.completions.create(
             model=self._selected_model,
             messages=cast(list[ChatCompletionMessageParam], messages),
