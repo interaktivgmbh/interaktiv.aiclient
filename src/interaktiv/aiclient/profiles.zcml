@@ -7,7 +7,7 @@
   <genericsetup:registerProfile
       name="default"
       title="Interaktiv AI Client: Install"
-      description="Package to configure a new Interaktiv AI Client site"
+      description="Installs the interaktiv.aiclient add-on."
       provides="Products.GenericSetup.interfaces.EXTENSION"
       directory="profiles/default"
       />
@@ -15,7 +15,7 @@
   <genericsetup:registerProfile
       name="uninstall"
       title="Interaktiv AI Client: Uninstall"
-      description="Uninstall Interaktiv AI Client setup."
+      description="Uninstalls the interaktiv.aiclient add-on."
       provides="Products.GenericSetup.interfaces.EXTENSION"
       directory="profiles/uninstall"
       />

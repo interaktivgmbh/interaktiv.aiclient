@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2022-05-25 17:12+0000\n"
+"POT-Creation-Date: 2025-11-28 10:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -13,3 +13,63 @@ msgstr ""
 "Language-Name: English\n"
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: interaktiv.aiclient\n"
+
+#: interaktiv/aiclient/profiles/default/controlpanel.xml
+msgid "AI Client"
+msgstr ""
+
+#: interaktiv/aiclient/controlpanels/client_settings.py:38
+msgid "AI Client Settings"
+msgstr ""
+
+#: interaktiv/aiclient/controlpanels/client_settings.py:15
+msgid "API Key used to connect to OpenRouter"
+msgstr ""
+
+#: interaktiv/aiclient/client.py:24
+msgid "Failed to initialise AI Client."
+msgstr ""
+
+#: interaktiv/aiclient/profiles.zcml:13
+msgid "Installs the interaktiv.aiclient add-on."
+msgstr ""
+
+#: interaktiv/aiclient/profiles.zcml:13
+msgid "Interaktiv AI Client: Install"
+msgstr ""
+
+#: interaktiv/aiclient/profiles.zcml:21
+msgid "Interaktiv AI Client: Uninstall"
+msgstr ""
+
+#: interaktiv/aiclient/client.py:41
+msgid "No API Key provided."
+msgstr ""
+
+#: interaktiv/aiclient/client.py:35
+msgid "No API URL provided."
+msgstr ""
+
+#: interaktiv/aiclient/client.py:59
+msgid "No model selected."
+msgstr ""
+
+#: interaktiv/aiclient/controlpanels/client_settings.py:14
+msgid "OpenRouter API Key"
+msgstr ""
+
+#: interaktiv/aiclient/controlpanels/client_settings.py:27
+msgid "OpenRouter API URL"
+msgstr ""
+
+#: interaktiv/aiclient/controlpanels/client_settings.py:20
+msgid "OpenRouter model"
+msgstr ""
+
+#: interaktiv/aiclient/controlpanels/client_settings.py:21
+msgid "Select the model you want to use for the AI Client."
+msgstr ""
+
+#: interaktiv/aiclient/profiles.zcml:21
+msgid "Uninstalls the interaktiv.aiclient add-on."
+msgstr ""

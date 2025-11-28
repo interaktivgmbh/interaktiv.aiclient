@@ -1,6 +1,3 @@
-#--- PLEASE EDIT THE LINES BELOW CORRECTLY ---
-#SOME DESCRIPTIVE TITLE.
-#FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
@@ -15,51 +12,51 @@ msgstr ""
 "Language-Code: en\n"
 "Language-Name: English\n"
 "Preferred-Encodings: utf-8 latin1\n"
-"Domain: interaktiv.aiclient\n"
+"Domain: DOMAIN\n"
 
 #: interaktiv/aiclient/profiles/default/controlpanel.xml
 msgid "AI Client"
-msgstr ""
+msgstr "KI-Client"
 
 #: interaktiv/aiclient/controlpanels/client_settings.py:38
 msgid "AI Client Settings"
-msgstr ""
+msgstr "KI-Client Einstellungen"
 
 #: interaktiv/aiclient/controlpanels/client_settings.py:15
 msgid "API Key used to connect to OpenRouter"
-msgstr ""
+msgstr "API Schlüssel zur Verbindung mit OpenRouter"
 
 #: interaktiv/aiclient/client.py:24
 msgid "Failed to initialise AI Client."
-msgstr ""
+msgstr "Der KI-Client konnte nicht initialisiert werden."
 
 #: interaktiv/aiclient/profiles.zcml:13
 msgid "Installs the interaktiv.aiclient add-on."
-msgstr ""
+msgstr "Installiert die interaktiv.aiclient Erweiterung."
 
 #: interaktiv/aiclient/profiles.zcml:13
 msgid "Interaktiv AI Client: Install"
-msgstr ""
+msgstr "Interaktiv KI-Client: Installieren"
 
 #: interaktiv/aiclient/profiles.zcml:21
 msgid "Interaktiv AI Client: Uninstall"
-msgstr ""
+msgstr "Interaktiv KI-Client: Deinstallieren"
 
 #: interaktiv/aiclient/client.py:41
 msgid "No API Key provided."
-msgstr ""
+msgstr "Es wurde kein API Schlüssel angegeben."
 
 #: interaktiv/aiclient/client.py:35
 msgid "No API URL provided."
-msgstr ""
+msgstr "Es wurde keine API URL angegeben."
 
 #: interaktiv/aiclient/client.py:59
 msgid "No model selected."
-msgstr ""
+msgstr "Es wurde kein Modell ausgewählt."
 
 #: interaktiv/aiclient/controlpanels/client_settings.py:14
 msgid "OpenRouter API Key"
-msgstr ""
+msgstr "OpenRouter API Schlüssel"
 
 #: interaktiv/aiclient/controlpanels/client_settings.py:27
 msgid "OpenRouter API URL"
@@ -67,12 +64,13 @@ msgstr ""
 
 #: interaktiv/aiclient/controlpanels/client_settings.py:20
 msgid "OpenRouter model"
-msgstr ""
+msgstr "OpenRouter Modell"
 
 #: interaktiv/aiclient/controlpanels/client_settings.py:21
 msgid "Select the model you want to use for the AI Client."
-msgstr ""
+msgstr "Wähle das Modell aus, welches für den KI-Client verwendet werden soll."
 
 #: interaktiv/aiclient/profiles.zcml:21
 msgid "Uninstalls the interaktiv.aiclient add-on."
-msgstr ""
+msgstr "Deinstalliert die interaktiv.aiclient Erweiterung."
+
