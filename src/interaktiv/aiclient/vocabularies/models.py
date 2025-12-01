@@ -69,7 +69,7 @@ def format_model(model: Dict[str, Any]) -> Dict[str, str]:
     }
 
 
-# noInspection PyUnusedLocal
+# noinspection PyUnusedLocal
 @provider(IVocabularyFactory)
 def model_vocabulary(context) -> SimpleVocabulary:
     models = get_openrouter_models()
