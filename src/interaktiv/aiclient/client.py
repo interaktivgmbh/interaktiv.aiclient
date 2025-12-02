@@ -1,6 +1,9 @@
 from interaktiv.aiclient import _
+from interaktiv.aiclient import logger
 from interaktiv.aiclient.interfaces import IAIClient
 from openai import OpenAI
+from openai import APIStatusError, APITimeoutError, APIConnectionError
+from openai import RateLimitError, BadRequestError, InternalServerError
 from openai.types.chat.chat_completion_message_param import ChatCompletionMessageParam
 from plone.registry import Registry
 from plone.registry.interfaces import IRegistry
@@ -70,13 +73,30 @@ class AIClient:
         self.__ensure_initialised()
         self.__ensure_model_selected()
 
-        # TODO handle errors
-        completion = self._client.chat.completions.create(
-            model=self._selected_model,
-            messages=cast(list[ChatCompletionMessageParam], messages),
-        )
-
-        return completion.choices[0].message.content
+        try:
+            completion = self._client.chat.completions.create(
+                model=self._selected_model,
+                messages=cast(list[ChatCompletionMessageParam], messages),
+            )
+            return completion.choices[0].message.content
+        except BadRequestError as e:
+            logger.error(f"Invalid request: {e}")
+            return None
+        except InternalServerError as e:
+            logger.error(f"OpenAI internal server error: {e}")
+            return None
+        except RateLimitError as e:
+            logger.error(f"Rate limit reached: {e}")
+            return None
+        except APITimeoutError as e:
+            logger.error(f"Request timed out: {e}")
+            return None
+        except APIConnectionError as e:
+            logger.error(f"Connection problem: {e}")
+            return None
+        except APIStatusError as e:
+            logger.error(f"API status error {e.status_code}: {e}")
+            return None
 
     @property
     def selected_model(self):
