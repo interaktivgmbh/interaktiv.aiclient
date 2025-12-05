@@ -1,8 +1,12 @@
 from interaktiv.aiclient.client import AIClient
 from interaktiv.aiclient.client import AIClientInitializationError
 from interaktiv.aiclient.interfaces import IAIClient
-from openai import APIStatusError, APITimeoutError, APIConnectionError
-from openai import RateLimitError, BadRequestError, InternalServerError
+from openai import APIConnectionError
+from openai import APIStatusError
+from openai import APITimeoutError
+from openai import BadRequestError
+from openai import InternalServerError
+from openai import RateLimitError
 from plone import api
 from unittest import mock
 from zope.component import getUtility
@@ -83,8 +87,8 @@ class TestAIClient:
 
         errors = {
             APIStatusError: api_status_error_params,
-            APITimeoutError: { "request": mock.MagicMock() },
-            APIConnectionError: { "message": "Test error", "request": mock.MagicMock() },
+            APITimeoutError: {"request": mock.MagicMock()},
+            APIConnectionError: {"message": "Test error", "request": mock.MagicMock()},
             RateLimitError: api_status_error_params,
             BadRequestError: api_status_error_params,
             InternalServerError: api_status_error_params,
@@ -93,7 +97,9 @@ class TestAIClient:
         # do it
         for error_cls, params in errors.items():
             mock_client_instance = mock_openai.return_value
-            mock_client_instance.chat.completions.create.side_effect = error_cls(**params)
+            mock_client_instance.chat.completions.create.side_effect = error_cls(
+                **params
+            )
 
             # this should not raise
             res = ai_client.call([{"role": "user", "content": "Hello!"}])

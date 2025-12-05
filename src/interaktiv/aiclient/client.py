@@ -1,9 +1,13 @@
 from interaktiv.aiclient import _
 from interaktiv.aiclient import logger
 from interaktiv.aiclient.interfaces import IAIClient
+from openai import APIConnectionError
+from openai import APIStatusError
+from openai import APITimeoutError
+from openai import BadRequestError
+from openai import InternalServerError
 from openai import OpenAI
-from openai import APIStatusError, APITimeoutError, APIConnectionError
-from openai import RateLimitError, BadRequestError, InternalServerError
+from openai import RateLimitError
 from openai.types.chat.chat_completion_message_param import ChatCompletionMessageParam
 from plone.registry import Registry
 from plone.registry.interfaces import IRegistry

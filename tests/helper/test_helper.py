@@ -1,8 +1,8 @@
+from interaktiv.aiclient.helper import get_model_name_from_slug
+from interaktiv.aiclient.vocabularies.models import model_vocabulary
 from unittest import mock
 
 import requests
-from interaktiv.aiclient.helper import get_model_name_from_slug
-from interaktiv.aiclient.vocabularies.models import model_vocabulary
 
 
 SAMPLE_RESPONSE = {
