@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2025-11-28 10:35+0000\n"
+"POT-Creation-Date: 2025-12-08 07:39+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,7 +26,7 @@ msgstr "KI-Client Einstellungen"
 msgid "API Key used to connect to OpenRouter"
 msgstr "API Schlüssel zur Verbindung mit OpenRouter"
 
-#: interaktiv/aiclient/client.py:24
+#: interaktiv/aiclient/client.py:31
 msgid "Failed to initialise AI Client."
 msgstr "Der KI-Client konnte nicht initialisiert werden."
 
@@ -42,15 +42,15 @@ msgstr "Interaktiv KI-Client: Installieren"
 msgid "Interaktiv AI Client: Uninstall"
 msgstr "Interaktiv KI-Client: Deinstallieren"
 
-#: interaktiv/aiclient/client.py:41
+#: interaktiv/aiclient/client.py:48
 msgid "No API Key provided."
 msgstr "Es wurde kein API Schlüssel angegeben."
 
-#: interaktiv/aiclient/client.py:35
+#: interaktiv/aiclient/client.py:42
 msgid "No API URL provided."
 msgstr "Es wurde keine API URL angegeben."
 
-#: interaktiv/aiclient/client.py:59
+#: interaktiv/aiclient/client.py:66
 msgid "No model selected."
 msgstr "Es wurde kein Modell ausgewählt."
 
@@ -73,4 +73,3 @@ msgstr "Wähle das Modell aus, welches für den KI-Client verwendet werden soll.
 #: interaktiv/aiclient/profiles.zcml:21
 msgid "Uninstalls the interaktiv.aiclient add-on."
 msgstr "Deinstalliert die interaktiv.aiclient Erweiterung."
-

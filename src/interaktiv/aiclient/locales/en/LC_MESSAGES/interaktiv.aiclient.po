@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2025-11-28 10:35+0000\n"
+"POT-Creation-Date: 2025-12-08 07:39+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,7 +26,7 @@ msgstr ""
 msgid "API Key used to connect to OpenRouter"
 msgstr ""
 
-#: interaktiv/aiclient/client.py:24
+#: interaktiv/aiclient/client.py:31
 msgid "Failed to initialise AI Client."
 msgstr ""
 
@@ -42,15 +42,15 @@ msgstr ""
 msgid "Interaktiv AI Client: Uninstall"
 msgstr ""
 
-#: interaktiv/aiclient/client.py:41
+#: interaktiv/aiclient/client.py:48
 msgid "No API Key provided."
 msgstr ""
 
-#: interaktiv/aiclient/client.py:35
+#: interaktiv/aiclient/client.py:42
 msgid "No API URL provided."
 msgstr ""
 
-#: interaktiv/aiclient/client.py:59
+#: interaktiv/aiclient/client.py:66
 msgid "No model selected."
 msgstr ""
 
