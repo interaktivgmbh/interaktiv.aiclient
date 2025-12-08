@@ -6,7 +6,7 @@ Tested for Plone `6.0.15`
 
 ## Adding this add-on to your project
 
-### Using ssh
+In your `mx.ini` file, add:
 
 ```ini
 [interaktiv.aiclient]
@@ -15,7 +15,7 @@ rev = v1.0.0
 extras = test
 ```
 
-### Using https
+Or using https:
 
 ```ini
 [interaktiv.aiclient]
