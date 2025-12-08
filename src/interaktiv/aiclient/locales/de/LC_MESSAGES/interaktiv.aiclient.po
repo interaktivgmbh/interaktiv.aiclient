@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2025-12-08 07:39+0000\n"
+"POT-Creation-Date: 2025-12-08 12:34+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,13 +18,17 @@ msgstr ""
 msgid "AI Client"
 msgstr "KI-Client"
 
-#: interaktiv/aiclient/controlpanels/client_settings.py:38
+#: interaktiv/aiclient/controlpanels/client_settings.py:39
 msgid "AI Client Settings"
 msgstr "KI-Client Einstellungen"
 
-#: interaktiv/aiclient/controlpanels/client_settings.py:15
+#: interaktiv/aiclient/controlpanels/client_settings.py:16
 msgid "API Key used to connect to OpenRouter"
 msgstr "API Schlüssel zur Verbindung mit OpenRouter"
+
+#: interaktiv/aiclient/controlpanels/client_settings.py:50
+msgid "Could not retrieve models from OpenRouter API. Please try again later."
+msgstr "Modelle konnten nicht von der OpenRouter API abgerufen werden. Bitte versuche es später erneut."
 
 #: interaktiv/aiclient/client.py:31
 msgid "Failed to initialise AI Client."
@@ -54,21 +58,25 @@ msgstr "Es wurde keine API URL angegeben."
 msgid "No model selected."
 msgstr "Es wurde kein Modell ausgewählt."
 
-#: interaktiv/aiclient/controlpanels/client_settings.py:14
+#: interaktiv/aiclient/controlpanels/client_settings.py:15
 msgid "OpenRouter API Key"
 msgstr "OpenRouter API Schlüssel"
 
-#: interaktiv/aiclient/controlpanels/client_settings.py:27
+#: interaktiv/aiclient/controlpanels/client_settings.py:28
 msgid "OpenRouter API URL"
 msgstr ""
 
-#: interaktiv/aiclient/controlpanels/client_settings.py:20
+#: interaktiv/aiclient/controlpanels/client_settings.py:21
 msgid "OpenRouter model"
 msgstr "OpenRouter Modell"
 
-#: interaktiv/aiclient/controlpanels/client_settings.py:21
+#: interaktiv/aiclient/controlpanels/client_settings.py:22
 msgid "Select the model you want to use for the AI Client."
 msgstr "Wähle das Modell aus, welches für den KI-Client verwendet werden soll."
+
+#: interaktiv/aiclient/controlpanels/client_settings.py:54
+msgid "The selected model is no longer available. Please choose another one from the list."
+msgstr "Das ausgewählte Modell ist nicht mehr verfügbar. Bitte wähle ein anderes aus der Liste."
 
 #: interaktiv/aiclient/profiles.zcml:21
 msgid "Uninstalls the interaktiv.aiclient add-on."

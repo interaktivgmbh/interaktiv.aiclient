@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2025-12-08 07:39+0000\n"
+"POT-Creation-Date: 2025-12-08 12:34+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,62 +17,70 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: interaktiv.aiclient\n"
 
-#: interaktiv/aiclient/profiles/default/controlpanel.xml
+#: interaktiv.aiclient/src/interaktiv/aiclient/profiles/default/controlpanel.xml
 msgid "AI Client"
 msgstr ""
 
-#: interaktiv/aiclient/controlpanels/client_settings.py:38
+#: interaktiv.aiclient/src/interaktiv/aiclient/controlpanels/client_settings.py:39
 msgid "AI Client Settings"
 msgstr ""
 
-#: interaktiv/aiclient/controlpanels/client_settings.py:15
+#: interaktiv.aiclient/src/interaktiv/aiclient/controlpanels/client_settings.py:16
 msgid "API Key used to connect to OpenRouter"
 msgstr ""
 
-#: interaktiv/aiclient/client.py:31
+#: interaktiv.aiclient/src/interaktiv/aiclient/controlpanels/client_settings.py:50
+msgid "Could not retrieve models from OpenRouter API. Please try again later."
+msgstr ""
+
+#: interaktiv.aiclient/src/interaktiv/aiclient/client.py:31
 msgid "Failed to initialise AI Client."
 msgstr ""
 
-#: interaktiv/aiclient/profiles.zcml:13
+#: interaktiv.aiclient/src/interaktiv/aiclient/profiles.zcml:13
 msgid "Installs the interaktiv.aiclient add-on."
 msgstr ""
 
-#: interaktiv/aiclient/profiles.zcml:13
+#: interaktiv.aiclient/src/interaktiv/aiclient/profiles.zcml:13
 msgid "Interaktiv AI Client: Install"
 msgstr ""
 
-#: interaktiv/aiclient/profiles.zcml:21
+#: interaktiv.aiclient/src/interaktiv/aiclient/profiles.zcml:21
 msgid "Interaktiv AI Client: Uninstall"
 msgstr ""
 
-#: interaktiv/aiclient/client.py:48
+#: interaktiv.aiclient/src/interaktiv/aiclient/client.py:48
 msgid "No API Key provided."
 msgstr ""
 
-#: interaktiv/aiclient/client.py:42
+#: interaktiv.aiclient/src/interaktiv/aiclient/client.py:42
 msgid "No API URL provided."
 msgstr ""
 
-#: interaktiv/aiclient/client.py:66
+#: interaktiv.aiclient/src/interaktiv/aiclient/client.py:66
 msgid "No model selected."
 msgstr ""
 
-#: interaktiv/aiclient/controlpanels/client_settings.py:14
+#: interaktiv.aiclient/src/interaktiv/aiclient/controlpanels/client_settings.py:15
 msgid "OpenRouter API Key"
 msgstr ""
 
-#: interaktiv/aiclient/controlpanels/client_settings.py:27
+#: interaktiv.aiclient/src/interaktiv/aiclient/controlpanels/client_settings.py:28
 msgid "OpenRouter API URL"
 msgstr ""
 
-#: interaktiv/aiclient/controlpanels/client_settings.py:20
+#: interaktiv.aiclient/src/interaktiv/aiclient/controlpanels/client_settings.py:21
 msgid "OpenRouter model"
 msgstr ""
 
-#: interaktiv/aiclient/controlpanels/client_settings.py:21
+#: interaktiv.aiclient/src/interaktiv/aiclient/controlpanels/client_settings.py:22
 msgid "Select the model you want to use for the AI Client."
 msgstr ""
 
-#: interaktiv/aiclient/profiles.zcml:21
+#: interaktiv.aiclient/src/interaktiv/aiclient/controlpanels/client_settings.py:54
+msgid "The selected model is no longer available. Please choose another one from the list."
+msgstr ""
+
+#: interaktiv.aiclient/src/interaktiv/aiclient/profiles.zcml:21
 msgid "Uninstalls the interaktiv.aiclient add-on."
 msgstr ""
