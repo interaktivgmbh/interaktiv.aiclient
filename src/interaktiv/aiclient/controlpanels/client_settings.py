@@ -1,4 +1,5 @@
 from interaktiv.aiclient import _
+from plone import api
 from plone import schema
 from plone.app.registry.browser.controlpanel import ControlPanelFormWrapper
 from plone.app.registry.browser.controlpanel import RegistryEditForm
@@ -13,7 +14,7 @@ class IAIClientSettings(Interface):
     openrouter_api_key = schema.Password(
         title=_("OpenRouter API Key"),
         description=_("API Key used to connect to OpenRouter"),
-        required=True,
+        required=False,
     )
 
     openrouter_model = schema.Choice(
@@ -36,6 +37,29 @@ class AIClientForm(RegistryEditForm):
     schema = IAIClientSettings
     schema_prefix = "interaktiv.aiclient"
     label = _("AI Client Settings")
+
+    def updateWidgets(self, prefix=None):
+        super().updateWidgets(prefix)
+
+        widget = self.widgets.get("openrouter_model")
+        vocab = widget.terms if widget else None
+
+        if not vocab:
+            widget.disabled = "disabled"
+
+            self.formErrorsMessage = _("Could not retrieve models from OpenRouter API. Please try again later.")
+            self.status = self.formErrorsMessage
+
+        if len(widget.value) and widget.value[0] not in vocab:
+            self.status = _("The selected model is no longer available. Please choose another one from the list.")
+
+    def updateActions(self):
+        super().updateActions()
+
+        widget = self.widgets.get("openrouter_model")
+
+        if widget.disabled == "disabled":
+            del self.actions["save"]
 
 
 @adapter(Interface, Interface)
