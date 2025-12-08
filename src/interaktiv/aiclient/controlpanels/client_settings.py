@@ -47,11 +47,15 @@ class AIClientForm(RegistryEditForm):
         if not vocab:
             widget.disabled = "disabled"
 
-            self.formErrorsMessage = _("Could not retrieve models from OpenRouter API. Please try again later.")
+            self.formErrorsMessage = _(
+                "Could not retrieve models from OpenRouter API. Please try again later."
+            )
             self.status = self.formErrorsMessage
 
         if len(widget.value) and widget.value[0] not in vocab:
-            self.status = _("The selected model is no longer available. Please choose another one from the list.")
+            self.status = _(
+                "The selected model is no longer available. Please choose another one from the list."
+            )
 
     def updateActions(self):
         super().updateActions()
