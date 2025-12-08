@@ -2,7 +2,7 @@
 
 This is a simple OpenRouter integration for Plone.
 
-Tested for Plone `6.0.13`
+Tested for Plone `6.0.15`
 
 ## Adding this add-on to your project
 
@@ -27,7 +27,7 @@ extras = test
 ## How to use
 
 To get started, fill in your API key and select a model from the AI Client controlpanel.
-Available models are fetched from the OpenRouter Models API during installation.
+Available models are fetched from the OpenRouter Models API.
 
 You can then get the AI Client utility and call its `call` method with a prompt.
 
