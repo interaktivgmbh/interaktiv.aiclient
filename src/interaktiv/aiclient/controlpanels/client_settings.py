@@ -1,5 +1,4 @@
 from interaktiv.aiclient import _
-from plone import api
 from plone import schema
 from plone.app.registry.browser.controlpanel import ControlPanelFormWrapper
 from plone.app.registry.browser.controlpanel import RegistryEditForm
