@@ -1,5 +1,7 @@
 # interaktiv.aiclient
 
+[![Code checks](https://github.com/interaktivgmbh/interaktiv.alttexts/actions/workflows/ci.yml/badge.svg)](https://github.com/interaktivgmbh/interaktiv.aiclient/actions/workflows/ci.yml)
+
 This is a simple OpenRouter integration for Plone.
 
 Tested for Plone `6.0.15`
