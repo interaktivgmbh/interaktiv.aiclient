@@ -6,30 +6,10 @@ This is a simple OpenRouter integration for Plone.
 
 Tested for Plone `6.0.15`
 
-## Adding this add-on to your project
-
-In your `mx.ini` file, add:
-
-```ini
-[interaktiv.aiclient]
-url = git@github.com:interaktivgmbh/interaktiv.aiclient.git
-rev = v1.0.0
-extras = test
-```
-
-Or using https:
-
-```ini
-[interaktiv.aiclient]
-url = https://github.com/interaktivgmbh/interaktiv.aiclient.git
-rev = v1.0.0
-extras = test
-```
-
 ## How to use
 
-To get started, fill in your API key and select a model from the AI Client controlpanel.
-Available models are fetched from the OpenRouter Models API.
+To get started, fill in your API key and select a model from the AI Client
+controlpanel. Available models are fetched from the OpenRouter Models API.
 
 You can then get the AI Client utility and call its `call` method with a prompt.
 
@@ -49,7 +29,28 @@ ai_client: AIClient = getUtility(IAIClient)
 response = ai_client.call(prompt)
 ```
 
-For more information on how to construct prompts, please refer to the [OpenAI docs](https://platform.openai.com/docs/overview).
+For more information on how to construct prompts, please refer to the
+[OpenAI docs](https://platform.openai.com/docs/overview).
+
+## Adding this add-on to your project
+
+In your `mx.ini` file, add:
+
+```ini
+[interaktiv.aiclient]
+url = git@github.com:interaktivgmbh/interaktiv.aiclient.git
+rev = v1.0.0
+extras = test
+```
+
+Or using https:
+
+```ini
+[interaktiv.aiclient]
+url = https://github.com/interaktivgmbh/interaktiv.aiclient.git
+rev = v1.0.0
+extras = test
+```
 
 ## Contribute
 
