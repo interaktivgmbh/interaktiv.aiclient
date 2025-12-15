@@ -53,7 +53,8 @@ class AIClientForm(RegistryEditForm):
 
         if len(widget.value) and widget.value[0] not in vocab:
             self.status = _(
-                "The selected model is no longer available. Please choose another one from the list."
+                "The selected model is no longer available. "
+                "Please choose another one from the list."
             )
 
     def updateActions(self):
