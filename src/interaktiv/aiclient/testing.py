@@ -29,13 +29,13 @@ FIXTURE = Layer()
 
 INTEGRATION_TESTING = IntegrationTesting(
     bases=(FIXTURE,),
-    name="Interaktiv.AiclientLayer:IntegrationTesting",
+    name="Interaktiv.AIClientLayer:IntegrationTesting",
 )
 
 
 FUNCTIONAL_TESTING = FunctionalTesting(
     bases=(FIXTURE, WSGI_SERVER_FIXTURE),
-    name="Interaktiv.AiclientLayer:FunctionalTesting",
+    name="Interaktiv.AIClientLayer:FunctionalTesting",
 )
 
 
@@ -45,5 +45,5 @@ ACCEPTANCE_TESTING = FunctionalTesting(
         REMOTE_LIBRARY_BUNDLE_FIXTURE,
         WSGI_SERVER_FIXTURE,
     ),
-    name="Interaktiv.AiclientLayer:AcceptanceTesting",
+    name="Interaktiv.AIClientLayer:AcceptanceTesting",
 )
