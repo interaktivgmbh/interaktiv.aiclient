@@ -34,7 +34,21 @@ For more information on how to construct prompts, please refer to the
 
 ## Adding this add-on to your project
 
-In your `mx.ini` file, add:
+Install the add-on using `pip`:
+
+```shell
+pip install interaktiv.aiclient
+```
+
+or if you're using uv:
+
+```shell
+uv pip install interaktiv.aiclient
+```
+
+### Install from source
+
+You can also install the add-on from the source. In your `mx.ini` file, add:
 
 ```ini
 [interaktiv.aiclient]
