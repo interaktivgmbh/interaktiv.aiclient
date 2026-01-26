@@ -1,3 +1,5 @@
+import asyncio
+
 from interaktiv.aiclient import _
 from interaktiv.aiclient import logger
 from interaktiv.aiclient.interfaces import IAIClient
@@ -54,10 +56,13 @@ class AIClient:
             missing_msg=_("No model selected."),
         )
 
+        extra_body = self.__get_extra_body(self._selected_model)
+
         self._client = ChatOpenAI(
             base_url=api_url,
             api_key=SecretStr(api_key),
             model=self._selected_model,
+            extra_body=extra_body,
         )
 
     def __get_registry_value(
@@ -69,6 +74,11 @@ class AIClient:
             raise AIClientInitializationError(f"{self.__on_failure} {missing_msg}")
 
         return value
+
+    def __get_extra_body(self, model: str) -> Dict[str, Any] | None:
+        if model.startswith("mistralai/"):
+            return {"provider": {"only": ["Mistral"]}}
+        return None
 
     def reload(self) -> None:
         """
@@ -101,6 +111,49 @@ class AIClient:
         except APIStatusError as e:
             logger.error(f"API status error {e.status_code}: {e}")
             return None
+
+    async def _call_with_retry(
+        self,
+        messages: List[Dict[str, Any]],
+        max_retries: int,
+        timeout: float,
+    ) -> Optional[str]:
+        for attempt in range(max_retries):
+            try:
+                response = await asyncio.wait_for(
+                    self._client.ainvoke(messages),
+                    timeout=timeout,
+                )
+                return response.content
+            except asyncio.TimeoutError:
+                logger.error(f"Timeout on attempt {attempt + 1}/{max_retries}")
+            except (
+                BadRequestError,
+                InternalServerError,
+                RateLimitError,
+                APITimeoutError,
+                APIConnectionError,
+                APIStatusError,
+            ) as e:
+                logger.error(f"Error on attempt {attempt + 1}/{max_retries}: {e}")
+        return None
+
+    def batch(
+        self,
+        messages_list: List[List[Dict[str, Any]]],
+        max_retries: int = 3,
+        timeout: float = 60.0,
+    ) -> List[Optional[str]]:
+        self.__ensure_initialised()
+
+        async def process_all():
+            tasks = [
+                self._call_with_retry(messages, max_retries, timeout)
+                for messages in messages_list
+            ]
+            return await asyncio.gather(*tasks)
+
+        return asyncio.run(process_all())
 
     @property
     def selected_model(self):
