@@ -1,5 +1,6 @@
 """Module where all interfaces, events and exceptions live."""
 
+from typing import Any
 from typing import Dict
 from typing import List
 from typing import Optional
@@ -14,4 +15,4 @@ class IInteraktivAIClientBrowserLayer(IDefaultBrowserLayer):
 class IAIClient(Interface):
     """AI Client Singleton"""
 
-    def call(self, messages: List[Dict[str, str]]) -> Optional[str]: ...
+    def call(self, messages: List[Dict[str, Any]]) -> Optional[str]: ...

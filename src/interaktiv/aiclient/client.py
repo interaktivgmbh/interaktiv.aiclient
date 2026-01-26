@@ -1,17 +1,17 @@
 from interaktiv.aiclient import _
 from interaktiv.aiclient import logger
 from interaktiv.aiclient.interfaces import IAIClient
+from langchain_openai import ChatOpenAI
 from openai import APIConnectionError
 from openai import APIStatusError
 from openai import APITimeoutError
 from openai import BadRequestError
 from openai import InternalServerError
-from openai import OpenAI
 from openai import RateLimitError
-from openai.types.chat.chat_completion_message_param import ChatCompletionMessageParam
 from plone.registry import Registry
 from plone.registry.interfaces import IRegistry
-from typing import cast
+from pydantic import SecretStr
+from typing import Any
 from typing import Dict
 from typing import List
 from typing import Optional
@@ -26,7 +26,7 @@ class AIClientInitializationError(Exception):
 @implementer(IAIClient)
 class AIClient:
     def __init__(self) -> None:
-        self._client: Optional[OpenAI] = None
+        self._client: Optional[ChatOpenAI] = None
         self._selected_model: Optional[str] = None
         self.__on_failure = _("Failed to initialise AI Client.")
 
@@ -48,8 +48,17 @@ class AIClient:
             missing_msg=_("No API Key provided."),
         )
 
-        self._selected_model = registry.get("interaktiv.aiclient.openrouter_model")
-        self._client = OpenAI(base_url=api_url, api_key=api_key)
+        self._selected_model = self.__get_registry_value(
+            registry=registry,
+            key="interaktiv.aiclient.openrouter_model",
+            missing_msg=_("No model selected."),
+        )
+
+        self._client = ChatOpenAI(
+            base_url=api_url,
+            api_key=SecretStr(api_key),
+            model=self._selected_model,
+        )
 
     def __get_registry_value(
         self, registry: Registry, key: str, missing_msg: str
@@ -61,11 +70,6 @@ class AIClient:
 
         return value
 
-    def __ensure_model_selected(self) -> None:
-        if not self._selected_model:
-            error_message = _("No model selected.")
-            raise AIClientInitializationError(f"{self.__on_failure} {error_message}")
-
     def reload(self) -> None:
         """
         This will re-initialise the AI Client.
@@ -73,16 +77,12 @@ class AIClient:
         """
         self.__ensure_initialised(force=True)
 
-    def call(self, messages: List[Dict[str, str]]) -> Optional[str]:
+    def call(self, messages: List[Dict[str, Any]]) -> Optional[str]:
         self.__ensure_initialised()
-        self.__ensure_model_selected()
 
         try:
-            completion = self._client.chat.completions.create(
-                model=self._selected_model,
-                messages=cast(list[ChatCompletionMessageParam], messages),
-            )
-            return completion.choices[0].message.content
+            response = self._client.invoke(messages)
+            return response.content
         except BadRequestError as e:
             logger.error(f"Invalid request: {e}")
             return None

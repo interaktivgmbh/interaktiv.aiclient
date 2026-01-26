@@ -31,7 +31,7 @@ classifiers = [
     "Programming Language :: Python :: 3.13",
 ]
 dependencies = [
-    "openai",
+    "langchain-openai",
     "Products.CMFPlone",
     "plone.api",
     "plone.restapi",
