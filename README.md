@@ -11,6 +11,8 @@ Tested for Plone `6.0.15`
 To get started, fill in your API key and select a model from the AI Client
 controlpanel. Available models are fetched from the OpenRouter Models API.
 
+You may also set the maximum amount of retries and a timeout for each request.
+
 You can then get the AI Client utility and call its `call` method with a prompt.
 
 ```python
@@ -28,6 +30,36 @@ prompt = [
 ai_client: AIClient = getUtility(IAIClient)
 response = ai_client.call(prompt)
 ```
+
+To run multiple prompts concurrently, you can use the `batch` method instead.
+Pass a list of prompts, following the same format as shown above.
+
+```python
+from interaktiv.aiclient.client import AIClient
+from interaktiv.aiclient.interfaces import IAIClient
+from zope.component import getUtility
+
+prompts = [
+    [
+        {
+            "role": "user",
+            "content": "This is the first prompt."
+        }
+    ],
+    [
+        {
+            "role": "user",
+            "content": "And this is the second prompt."
+        }
+    ]
+]
+
+ai_client: AIClient = getUtility(IAIClient)
+result = ai_client.batch(prompts)
+```
+
+The order is preserved in the result, meaning that you can map the prompt index
+to the response index. This is a good use case for python's `zip` function.
 
 For more information on how to construct prompts, please refer to the
 [OpenAI docs](https://platform.openai.com/docs/overview).
@@ -53,7 +85,7 @@ You can also install the add-on from the source. In your `mx.ini` file, add:
 ```ini
 [interaktiv.aiclient]
 url = git@github.com:interaktivgmbh/interaktiv.aiclient.git
-rev = v1.0.0
+rev = v1.1.0
 extras = test
 ```
 
@@ -62,7 +94,7 @@ Or using https:
 ```ini
 [interaktiv.aiclient]
 url = https://github.com/interaktivgmbh/interaktiv.aiclient.git
-rev = v1.0.0
+rev = v1.1.0
 extras = test
 ```
 

@@ -23,6 +23,20 @@ class IAIClientSettings(Interface):
         vocabulary="interaktiv.aiclient.model_vocabulary",
     )
 
+    max_retries = schema.Int(
+        title=_("Maximum amount of retries"),
+        description=_("Maximum amount of retries for every request."),
+        default=3,
+        required=True,
+    )
+
+    timeout = schema.Float(
+        title=_("Timeout in seconds"),
+        description="",
+        default=60.0,
+        required=True,
+    )
+
     openrouter_api_url = schema.TextLine(
         title=_("OpenRouter API URL"),
         description="",

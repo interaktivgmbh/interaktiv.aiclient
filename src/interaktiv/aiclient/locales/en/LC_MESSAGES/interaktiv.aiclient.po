@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2025-12-15 13:05+0000\n"
+"POT-Creation-Date: 2026-01-27 08:40+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 msgid "AI Client"
 msgstr ""
 
-#: interaktiv/aiclient/controlpanels/client_settings.py:38
+#: interaktiv/aiclient/controlpanels/client_settings.py:52
 msgid "AI Client Settings"
 msgstr ""
 
@@ -26,11 +26,11 @@ msgstr ""
 msgid "API Key used to connect to OpenRouter"
 msgstr ""
 
-#: interaktiv/aiclient/controlpanels/client_settings.py:49
+#: interaktiv/aiclient/controlpanels/client_settings.py:63
 msgid "Could not retrieve models from OpenRouter API. Please try again later."
 msgstr ""
 
-#: interaktiv/aiclient/client.py:31
+#: interaktiv/aiclient/client.py:69
 msgid "Failed to initialise AI Client."
 msgstr ""
 
@@ -46,15 +46,23 @@ msgstr ""
 msgid "Interaktiv AI Client: Uninstall"
 msgstr ""
 
-#: interaktiv/aiclient/client.py:48
+#: interaktiv/aiclient/controlpanels/client_settings.py:27
+msgid "Maximum amount of retries"
+msgstr ""
+
+#: interaktiv/aiclient/controlpanels/client_settings.py:28
+msgid "Maximum amount of retries for every request."
+msgstr ""
+
+#: interaktiv/aiclient/client.py:46
 msgid "No API Key provided."
 msgstr ""
 
-#: interaktiv/aiclient/client.py:42
+#: interaktiv/aiclient/client.py:41
 msgid "No API URL provided."
 msgstr ""
 
-#: interaktiv/aiclient/client.py:66
+#: interaktiv/aiclient/client.py:51
 msgid "No model selected."
 msgstr ""
 
@@ -62,7 +70,7 @@ msgstr ""
 msgid "OpenRouter API Key"
 msgstr ""
 
-#: interaktiv/aiclient/controlpanels/client_settings.py:27
+#: interaktiv/aiclient/controlpanels/client_settings.py:41
 msgid "OpenRouter API URL"
 msgstr ""
 
@@ -74,8 +82,12 @@ msgstr ""
 msgid "Select the model you want to use for the AI Client."
 msgstr ""
 
-#: interaktiv/aiclient/controlpanels/client_settings.py:55
+#: interaktiv/aiclient/controlpanels/client_settings.py:69
 msgid "The selected model is no longer available. Please choose another one from the list."
+msgstr ""
+
+#: interaktiv/aiclient/controlpanels/client_settings.py:34
+msgid "Timeout in seconds"
 msgstr ""
 
 #: interaktiv/aiclient/profiles.zcml:21
