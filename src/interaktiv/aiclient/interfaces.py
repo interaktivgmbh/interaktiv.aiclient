@@ -15,11 +15,16 @@ class IInteraktivAIClientBrowserLayer(IDefaultBrowserLayer):
 class IAIClient(Interface):
     """AI Client Singleton"""
 
-    def call(self, messages: List[Dict[str, Any]]) -> Optional[str]: ...
+    selected_model: Optional[str]
+    """The currently selected model identifier, or None if not initialized."""
+
+    def reload():
+        """Re-initialize the client with current configuration."""
+
+    def call(messages: List[Dict[str, Any]]) -> Optional[str]:
+        """Sends a prompt to the AI model and return the response."""
 
     def batch(
-        self,
         messages_list: List[List[Dict[str, Any]]],
-        max_retries: int = 3,
-        timeout: float = 60.0,
-    ) -> List[Optional[str]]: ...
+    ) -> List[Optional[str]]:
+        """Send multiple prompts concurrently and return all responses."""
