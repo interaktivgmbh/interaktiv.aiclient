@@ -1,0 +1,1 @@
+Added retries and timeout as safety mechanisms for requests. @szuev00 @arybakov05
