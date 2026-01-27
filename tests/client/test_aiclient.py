@@ -50,7 +50,10 @@ class TestAIClient:
         mock_response = mock.MagicMock()
         mock_response.content = "Hello world!"
 
-        mock_client_instance.invoke.return_value = mock_response
+        async def mock_ainvoke(messages):
+            return mock_response
+
+        mock_client_instance.ainvoke = mock_ainvoke
 
         ai_client: AIClient = getUtility(IAIClient)
 
@@ -102,7 +105,11 @@ class TestAIClient:
         # do it
         for error_cls, params in errors.items():
             mock_client_instance = mock_chatopenai.return_value
-            mock_client_instance.invoke.side_effect = error_cls(**params)
+
+            async def mock_ainvoke_error(messages, err=error_cls(**params)):
+                raise err
+
+            mock_client_instance.ainvoke = mock_ainvoke_error
 
             # this should not raise
             res = ai_client.call([{"role": "user", "content": "Hello!"}])
@@ -173,6 +180,7 @@ class TestAIClient:
         api.portal.set_registry_record(
             "interaktiv.aiclient.openrouter_model", "google/gemini-2.5-flash-image"
         )
+        api.portal.set_registry_record("interaktiv.aiclient.max_retries", 2)
 
         # do it
         messages_list = [
@@ -180,7 +188,7 @@ class TestAIClient:
             [{"role": "user", "content": "fail"}],
             [{"role": "user", "content": "World!"}],
         ]
-        results = ai_client.batch(messages_list, max_retries=2)
+        results = ai_client.batch(messages_list)
 
         # post condition
         assert len(results) == 3
@@ -212,10 +220,12 @@ class TestAIClient:
         api.portal.set_registry_record(
             "interaktiv.aiclient.openrouter_model", "google/gemini-2.5-flash-image"
         )
+        api.portal.set_registry_record("interaktiv.aiclient.max_retries", 1)
+        api.portal.set_registry_record("interaktiv.aiclient.timeout", 0.1)
 
         # do it - short timeout
         messages_list = [[{"role": "user", "content": "Hello!"}]]
-        results = ai_client.batch(messages_list, max_retries=1, timeout=0.1)
+        results = ai_client.batch(messages_list)
 
         # post condition
         assert len(results) == 1
@@ -250,10 +260,11 @@ class TestAIClient:
         api.portal.set_registry_record(
             "interaktiv.aiclient.openrouter_model", "google/gemini-2.5-flash-image"
         )
+        api.portal.set_registry_record("interaktiv.aiclient.max_retries", 3)
 
         # do it - allow 3 retries
         messages_list = [[{"role": "user", "content": "Hello!"}]]
-        results = ai_client.batch(messages_list, max_retries=3)
+        results = ai_client.batch(messages_list)
 
         # post condition
         assert len(results) == 1
