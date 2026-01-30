@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2026-01-30 14:30+0000\n"
+"POT-Creation-Date: 2026-01-30 14:36+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "AI Client"
 msgstr ""
 
-#: interaktiv.aiclient/src/interaktiv/aiclient/controlpanels/client_settings.py:58
+#: interaktiv.aiclient/src/interaktiv/aiclient/controlpanels/client_settings.py:62
 msgid "AI Client Settings"
 msgstr ""
 
@@ -29,7 +29,7 @@ msgstr ""
 msgid "API Key used to connect to OpenRouter"
 msgstr ""
 
-#: interaktiv.aiclient/src/interaktiv/aiclient/controlpanels/client_settings.py:69
+#: interaktiv.aiclient/src/interaktiv/aiclient/controlpanels/client_settings.py:73
 msgid "Could not retrieve models from OpenRouter API. Please try again later."
 msgstr ""
 
@@ -54,7 +54,7 @@ msgid "Maximum amount of concurrent requests"
 msgstr ""
 
 #: interaktiv.aiclient/src/interaktiv/aiclient/controlpanels/client_settings.py:35
-msgid "Maximum amount of concurrent requests when processing a batch."
+msgid "Maximum amount of concurrent requests when processing a batch. If you see a lot of retries in the logs when running prompts in batch, you should reduce this value."
 msgstr ""
 
 #: interaktiv.aiclient/src/interaktiv/aiclient/controlpanels/client_settings.py:27
@@ -81,7 +81,7 @@ msgstr ""
 msgid "OpenRouter API Key"
 msgstr ""
 
-#: interaktiv.aiclient/src/interaktiv/aiclient/controlpanels/client_settings.py:47
+#: interaktiv.aiclient/src/interaktiv/aiclient/controlpanels/client_settings.py:51
 msgid "OpenRouter API URL"
 msgstr ""
 
@@ -93,11 +93,11 @@ msgstr ""
 msgid "Select the model you want to use for the AI Client."
 msgstr ""
 
-#: interaktiv.aiclient/src/interaktiv/aiclient/controlpanels/client_settings.py:75
+#: interaktiv.aiclient/src/interaktiv/aiclient/controlpanels/client_settings.py:79
 msgid "The selected model is no longer available. Please choose another one from the list."
 msgstr ""
 
-#: interaktiv.aiclient/src/interaktiv/aiclient/controlpanels/client_settings.py:40
+#: interaktiv.aiclient/src/interaktiv/aiclient/controlpanels/client_settings.py:44
 msgid "Timeout in seconds"
 msgstr ""
 

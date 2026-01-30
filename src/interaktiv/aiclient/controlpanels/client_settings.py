@@ -32,7 +32,11 @@ class IAIClientSettings(Interface):
 
     max_concurrent_requests = schema.Int(
         title=_("Maximum amount of concurrent requests"),
-        description=_("Maximum amount of concurrent requests when processing a batch."),
+        description=_(
+            "Maximum amount of concurrent requests when processing a batch. "
+            "If you see a lot of retries in the logs when running prompts "
+            "in batch, you should reduce this value."
+        ),
         default=5,
     )
 
