@@ -106,7 +106,8 @@ class TestAIClient:
         for error_cls, params in errors.items():
             mock_client_instance = mock_chatopenai.return_value
 
-            async def mock_ainvoke_error(messages, err=error_cls(**params)):
+            async def mock_ainvoke_error(messages, error_cls=error_cls, params=params):
+                err = error_cls(**params)
                 raise err
 
             mock_client_instance.ainvoke = mock_ainvoke_error

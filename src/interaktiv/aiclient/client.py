@@ -18,7 +18,6 @@ from plone.registry.interfaces import IRegistry
 from pydantic import SecretStr
 from typing import Any
 from typing import Dict
-from typing import List
 from typing import Optional
 from zope.component import getUtility
 from zope.interface import implementer
