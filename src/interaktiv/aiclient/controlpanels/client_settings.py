@@ -30,6 +30,12 @@ class IAIClientSettings(Interface):
         required=True,
     )
 
+    max_concurrent_requests = schema.Int(
+        title=_("Maximum amount of concurrent requests"),
+        description=_("Maximum amount of concurrent requests when processing a batch."),
+        default=5,
+    )
+
     timeout = schema.Float(
         title=_("Timeout in seconds"),
         description="",

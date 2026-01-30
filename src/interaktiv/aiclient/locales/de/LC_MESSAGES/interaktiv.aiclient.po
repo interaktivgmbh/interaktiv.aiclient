@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2026-01-27 08:40+0000\n"
+"POT-Creation-Date: 2026-01-30 14:30+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 msgid "AI Client"
 msgstr "KI-Client"
 
-#: interaktiv/aiclient/controlpanels/client_settings.py:52
+#: interaktiv/aiclient/controlpanels/client_settings.py:58
 msgid "AI Client Settings"
 msgstr "KI-Client Einstellungen"
 
@@ -26,11 +26,11 @@ msgstr "KI-Client Einstellungen"
 msgid "API Key used to connect to OpenRouter"
 msgstr "API Schlüssel zur Verbindung mit OpenRouter"
 
-#: interaktiv/aiclient/controlpanels/client_settings.py:63
+#: interaktiv/aiclient/controlpanels/client_settings.py:69
 msgid "Could not retrieve models from OpenRouter API. Please try again later."
 msgstr "Modelle konnten nicht von der OpenRouter API abgerufen werden. Bitte versuche es später erneut."
 
-#: interaktiv/aiclient/client.py:69
+#: interaktiv/aiclient/client.py:126
 msgid "Failed to initialise AI Client."
 msgstr "Der KI-Client konnte nicht initialisiert werden."
 
@@ -46,6 +46,14 @@ msgstr "Interaktiv KI-Client: Installieren"
 msgid "Interaktiv AI Client: Uninstall"
 msgstr "Interaktiv KI-Client: Deinstallieren"
 
+#: interaktiv/aiclient/controlpanels/client_settings.py:34
+msgid "Maximum amount of concurrent requests"
+msgstr "Maximale Anzahl an gleichzeitigen Anfragen"
+
+#: interaktiv/aiclient/controlpanels/client_settings.py:35
+msgid "Maximum amount of concurrent requests when processing a batch."
+msgstr "Maximale Anzahl an gleichzeitigen Anfragen bei der Bearbeitung eines Batches."
+
 #: interaktiv/aiclient/controlpanels/client_settings.py:27
 msgid "Maximum amount of retries"
 msgstr "Maximale Anzahl der Wiederholungsversuche"
@@ -54,11 +62,11 @@ msgstr "Maximale Anzahl der Wiederholungsversuche"
 msgid "Maximum amount of retries for every request."
 msgstr "Maximale Anzahl der Wiederholungsversuche pro Anfrage."
 
-#: interaktiv/aiclient/client.py:46
+#: interaktiv/aiclient/client.py:47
 msgid "No API Key provided."
 msgstr "Es wurde kein API Schlüssel angegeben."
 
-#: interaktiv/aiclient/client.py:41
+#: interaktiv/aiclient/client.py:43
 msgid "No API URL provided."
 msgstr "Es wurde keine API URL angegeben."
 
@@ -70,7 +78,7 @@ msgstr "Es wurde kein Modell ausgewählt."
 msgid "OpenRouter API Key"
 msgstr "OpenRouter API Schlüssel"
 
-#: interaktiv/aiclient/controlpanels/client_settings.py:41
+#: interaktiv/aiclient/controlpanels/client_settings.py:47
 msgid "OpenRouter API URL"
 msgstr ""
 
@@ -82,11 +90,11 @@ msgstr "OpenRouter Modell"
 msgid "Select the model you want to use for the AI Client."
 msgstr "Wähle das Modell aus, welches für den KI-Client verwendet werden soll."
 
-#: interaktiv/aiclient/controlpanels/client_settings.py:69
+#: interaktiv/aiclient/controlpanels/client_settings.py:75
 msgid "The selected model is no longer available. Please choose another one from the list."
 msgstr "Das ausgewählte Modell ist nicht mehr verfügbar. Bitte wähle ein anderes aus der Liste."
 
-#: interaktiv/aiclient/controlpanels/client_settings.py:34
+#: interaktiv/aiclient/controlpanels/client_settings.py:40
 msgid "Timeout in seconds"
 msgstr "Timeout in Sekunden"
 

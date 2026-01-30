@@ -7,12 +7,7 @@ from interaktiv.aiclient.types import BatchResponse
 from interaktiv.aiclient.types import Prompt
 from interaktiv.aiclient.types import Response
 from langchain_openai import ChatOpenAI
-from openai import APIConnectionError
-from openai import APIStatusError
-from openai import APITimeoutError
-from openai import BadRequestError
-from openai import InternalServerError
-from openai import RateLimitError
+from openai import APIError
 from plone.registry import Registry
 from plone.registry.interfaces import IRegistry
 from pydantic import SecretStr
@@ -57,6 +52,9 @@ class AIClient:
         )
 
         self._max_retries = registry.get("interaktiv.aiclient.max_retries", 3)
+        self._max_concurrent_requests = registry.get(
+            "interaktiv.aiclient.max_concurrent_requests", 5
+        )
         self._timeout = registry.get("interaktiv.aiclient.timeout", 60.0)
 
         extra_body = self.__get_extra_body(self._selected_model)
@@ -66,6 +64,8 @@ class AIClient:
             api_key=SecretStr(api_key),
             model=self._selected_model,
             extra_body=extra_body,
+            max_retries=self._max_retries,
+            timeout=self._timeout,
         )
 
     def reload(self) -> None:
@@ -91,28 +91,22 @@ class AIClient:
         if not messages:
             return None
 
-        for attempt in range(self._max_retries):
-            try:
-                response = await asyncio.wait_for(
-                    self._client.ainvoke(messages),
-                    timeout=self._timeout,
-                )
-                return response.content
-            except asyncio.TimeoutError:
-                logger.error(f"Timeout on attempt {attempt + 1}/{self._max_retries}")
-            except (
-                BadRequestError,
-                InternalServerError,
-                RateLimitError,
-                APITimeoutError,
-                APIConnectionError,
-                APIStatusError,
-            ) as e:
-                logger.error(f"Error on attempt {attempt + 1}/{self._max_retries}: {e}")
+        try:
+            response = await self._client.ainvoke(messages)
+            return response.content
+        except APIError as e:
+            logger.error(f"Request failed after {self._max_retries} retries: {e}")
+
         return None
 
     async def _process_batch(self, prompts: BatchPrompts) -> BatchResponse:
-        tasks = [self._call_with_retry(prompt) for prompt in prompts]
+        semaphore = asyncio.Semaphore(self._max_concurrent_requests)
+
+        async def call_with_semaphore(prompt):
+            async with semaphore:
+                return await self._call_with_retry(prompt)
+
+        tasks = [call_with_semaphore(prompt) for prompt in prompts]
 
         result = await asyncio.gather(*tasks, return_exceptions=True)
 
