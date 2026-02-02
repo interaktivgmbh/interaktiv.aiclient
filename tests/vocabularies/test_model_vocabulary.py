@@ -1,7 +1,14 @@
 from interaktiv.aiclient.vocabularies.models import model_vocabulary
+from plone.memoize import ram
 from unittest import mock
 
+import pytest
 import requests
+
+
+@pytest.fixture(autouse=True)
+def clear_ram_cache():
+    ram.global_cache.invalidateAll()
 
 
 SAMPLE_RESPONSE = {
@@ -115,10 +122,12 @@ class MockResponse:
 
 class TestModelVocabulary:
     # noinspection PyUnusedLocal
-    @mock.patch("interaktiv.aiclient.vocabularies.models.requests.get")
-    def test_models_vocabulary(self, mock_requests_get, portal):
+    @mock.patch("interaktiv.aiclient.vocabularies.models.requests.Session")
+    def test_models_vocabulary(self, mock_session_class, portal):
         # setup
-        mock_requests_get.return_value = MockResponse(SAMPLE_RESPONSE)
+        mock_session = mock.MagicMock()
+        mock_session_class.return_value.__enter__.return_value = mock_session
+        mock_session.get.return_value = MockResponse(SAMPLE_RESPONSE)
 
         # do it
         vocabulary = model_vocabulary(None)
@@ -129,10 +138,30 @@ class TestModelVocabulary:
         assert "openai/gpt-4" not in terms  # doesn't support image input -> not needed
 
     # noinspection PyUnusedLocal
-    @mock.patch("interaktiv.aiclient.vocabularies.models.requests.get")
-    def test_models_vocabulary__failure(self, mock_requests_get, portal):
+    @mock.patch("interaktiv.aiclient.vocabularies.models.requests.Session")
+    def test_models_vocabulary__caching(self, mock_session_class, portal):
         # setup
-        mock_requests_get.return_value = MockResponse(SAMPLE_RESPONSE, 404)
+        mock_session = mock.MagicMock()
+        mock_session_class.return_value.__enter__.return_value = mock_session
+        mock_session.get.return_value = MockResponse(SAMPLE_RESPONSE)
+
+        # do it
+        vocabulary1 = model_vocabulary(None)
+        vocabulary2 = model_vocabulary(None)
+
+        # post condition
+        assert len(vocabulary1) == 1
+        assert len(vocabulary2) == 1
+        # only one call expected since models are cached
+        mock_session.get.assert_called_once()
+
+    # noinspection PyUnusedLocal
+    @mock.patch("interaktiv.aiclient.vocabularies.models.requests.Session")
+    def test_models_vocabulary__failure(self, mock_session_class, portal):
+        # setup
+        mock_session = mock.MagicMock()
+        mock_session_class.return_value.__enter__.return_value = mock_session
+        mock_session.get.return_value = MockResponse(SAMPLE_RESPONSE, 404)
 
         # do it
         vocabulary = model_vocabulary(None)

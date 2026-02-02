@@ -2,19 +2,17 @@ from interaktiv.aiclient import _
 from interaktiv.aiclient import logger
 from interaktiv.aiclient.helper import safe_execute_async
 from interaktiv.aiclient.interfaces import IAIClient
+from interaktiv.aiclient.types import BatchPrompts
+from interaktiv.aiclient.types import BatchResponse
+from interaktiv.aiclient.types import Prompt
+from interaktiv.aiclient.types import Response
 from langchain_openai import ChatOpenAI
-from openai import APIConnectionError
-from openai import APIStatusError
-from openai import APITimeoutError
-from openai import BadRequestError
-from openai import InternalServerError
-from openai import RateLimitError
+from openai import APIError
 from plone.registry import Registry
 from plone.registry.interfaces import IRegistry
 from pydantic import SecretStr
 from typing import Any
 from typing import Dict
-from typing import List
 from typing import Optional
 from zope.component import getUtility
 from zope.interface import implementer
@@ -31,25 +29,33 @@ class AIClient:
     def __init__(self) -> None:
         self._client: Optional[ChatOpenAI] = None
         self._selected_model: Optional[str] = None
+        self._max_retries: Optional[int] = None
+        self._timeout: Optional[float] = None
 
     def __ensure_initialised(self, force: bool = False) -> None:
         if self._client and not force:
             return  # already initialised
 
+        registry: Registry = getUtility(IRegistry)
+
         api_url = self.__get_registry_value(
             key="interaktiv.aiclient.openrouter_api_url",
             missing_msg=_("No API URL provided."),
         )
-
         api_key = self.__get_registry_value(
             key="interaktiv.aiclient.openrouter_api_key",
             missing_msg=_("No API Key provided."),
         )
-
         self._selected_model = self.__get_registry_value(
             key="interaktiv.aiclient.openrouter_model",
             missing_msg=_("No model selected."),
         )
+
+        self._max_retries = registry.get("interaktiv.aiclient.max_retries", 3)
+        self._max_concurrent_requests = registry.get(
+            "interaktiv.aiclient.max_concurrent_requests", 5
+        )
+        self._timeout = registry.get("interaktiv.aiclient.timeout", 60.0)
 
         extra_body = self.__get_extra_body(self._selected_model)
 
@@ -58,18 +64,9 @@ class AIClient:
             api_key=SecretStr(api_key),
             model=self._selected_model,
             extra_body=extra_body,
+            max_retries=self._max_retries,
+            timeout=self._timeout,
         )
-
-    def __get_registry_value(self, key: str, missing_msg: str) -> str:
-        registry: Registry = getUtility(IRegistry)
-        value: str = registry.get(key)
-
-        if not value:
-            raise AIClientInitializationError(
-                f"{_('Failed to initialise AI Client.')} {missing_msg}"
-            )
-
-        return value
 
     def reload(self) -> None:
         """
@@ -78,68 +75,58 @@ class AIClient:
         """
         self.__ensure_initialised(force=True)
 
-    def call(self, messages: List[Dict[str, Any]]) -> Optional[str]:
+    def call(self, messages: Prompt) -> Response:
         self.__ensure_initialised()
 
-        registry: Registry = getUtility(IRegistry)
-
-        max_retries = registry["interaktiv.aiclient.max_retries"]
-        timeout = registry["interaktiv.aiclient.timeout"]
-
-        func = self._call_with_retry(messages, max_retries, timeout)
+        func = self._call_with_retry(messages)
         return safe_execute_async(func)
 
-    def batch(
-        self,
-        messages_list: List[List[Dict[str, Any]]],
-    ) -> List[Optional[str]]:
+    def batch(self, prompts: BatchPrompts) -> BatchResponse:
         self.__ensure_initialised()
 
-        func = self._process_batch(messages_list)
+        func = self._process_batch(prompts)
         return safe_execute_async(func)
 
-    async def _call_with_retry(
-        self,
-        messages: List[Dict[str, Any]],
-        max_retries: int,
-        timeout: float,
-    ) -> Optional[str]:
-        for attempt in range(max_retries):
-            try:
-                response = await asyncio.wait_for(
-                    self._client.ainvoke(messages),
-                    timeout=timeout,
-                )
-                return response.content
-            except asyncio.TimeoutError:
-                logger.error(f"Timeout on attempt {attempt + 1}/{max_retries}")
-            except (
-                BadRequestError,
-                InternalServerError,
-                RateLimitError,
-                APITimeoutError,
-                APIConnectionError,
-                APIStatusError,
-            ) as e:
-                logger.error(f"Error on attempt {attempt + 1}/{max_retries}: {e}")
+    async def _call_with_retry(self, messages: Prompt) -> Response:
+        if not messages:
+            return None
+
+        try:
+            response = await self._client.ainvoke(messages)
+            return response.content
+        except APIError as e:
+            logger.error(f"Request failed after {self._max_retries} retries: {e}")
+
         return None
 
-    async def _process_batch(
-        self,
-        messages_list: List[List[Dict[str, Any]]],
-    ) -> List[Optional[str]]:
+    async def _process_batch(self, prompts: BatchPrompts) -> BatchResponse:
+        semaphore = asyncio.Semaphore(self._max_concurrent_requests)
+
+        async def call_with_semaphore(prompt):
+            async with semaphore:
+                return await self._call_with_retry(prompt)
+
+        tasks = [call_with_semaphore(prompt) for prompt in prompts]
+
+        result = await asyncio.gather(*tasks, return_exceptions=True)
+
+        return list(result)
+
+    @staticmethod
+    def __get_registry_value(key: str, missing_msg: str) -> Any:
         registry: Registry = getUtility(IRegistry)
 
-        max_retries = registry["interaktiv.aiclient.max_retries"]
-        timeout = registry["interaktiv.aiclient.timeout"]
+        try:
+            value: Any = registry[key]
+        except KeyError:
+            value = None
 
-        tasks = [
-            self._call_with_retry(messages, max_retries, timeout)
-            for messages in messages_list
-        ]
+        if value is None:
+            raise AIClientInitializationError(
+                f"{_('Failed to initialise AI Client.')} {missing_msg}"
+            )
 
-        result = await asyncio.gather(*tasks)
-        return list(result)
+        return value
 
     @staticmethod
     def __get_extra_body(model: str) -> Optional[Dict[str, Any]]:
