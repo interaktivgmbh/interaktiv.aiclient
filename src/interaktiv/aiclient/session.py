@@ -1,8 +1,11 @@
+from concurrent import futures
+from typing import Any
+from typing import Coroutine
+from typing import Optional
+
 import asyncio
 import contextlib
 import threading
-from concurrent import futures
-from typing import Optional, Coroutine, Any
 
 
 class _SessionManager:
