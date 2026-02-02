@@ -30,7 +30,7 @@ class AIClient:
         self._client: Optional[ChatOpenAI] = None
         self._selected_model: Optional[str] = None
         self._max_retries: Optional[int] = None
-        self._timeout: float = 60.0
+        self._timeout: Optional[float] = None
 
     def __ensure_initialised(self, force: bool = False) -> None:
         if self._client and not force:
