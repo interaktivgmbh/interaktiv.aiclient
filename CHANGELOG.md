@@ -9,6 +9,20 @@
 
 <!-- towncrier release notes start -->
 
+## 1.1.1 (2026-02-02)
+
+
+### New features:
+
+- Added semaphore to limit concurrent requests in a batch. @arybakov05
+- Added caching for model vocabulary. @arybakov05
+- Added a session manager that keeps a single event loop alive for a shared connection pool. @arybakov05
+
+
+### Bug fixes:
+
+- Add retry and timeout for models API call. @arybakov05
+
 ## 1.1.0 (2026-01-27)
 
 
