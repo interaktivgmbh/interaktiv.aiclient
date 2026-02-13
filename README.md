@@ -6,6 +6,18 @@ This is a simple OpenRouter integration for Plone.
 
 Tested for Plone `6.0.15`
 
+## Configuration
+
+![AI Client controlpanel](docs/controlpanel.png)
+
+In the controlpanel, you may configure the
+
+* OpenRouter API key
+* the used model
+* the maximum amount of retries per request
+* the maximum amount of concurrent requests
+* the timeout for each request in seconds
+
 ## How to use
 
 To get started, fill in your API key and select a model from the AI Client
@@ -85,7 +97,7 @@ You can also install the add-on from the source. In your `mx.ini` file, add:
 ```ini
 [interaktiv.aiclient]
 url = git@github.com:interaktivgmbh/interaktiv.aiclient.git
-rev = v1.1.1
+rev = v2.0.0
 extras = test
 ```
 
@@ -94,7 +106,7 @@ Or using https:
 ```ini
 [interaktiv.aiclient]
 url = https://github.com/interaktivgmbh/interaktiv.aiclient.git
-rev = v1.1.1
+rev = v2.0.0
 extras = test
 ```
 
