@@ -9,6 +9,13 @@
 
 <!-- towncrier release notes start -->
 
+## 2.0.0 (2026-02-13)
+
+
+### Breaking changes:
+
+- Switch to implicit namespaces. @arybakov05
+
 ## 1.1.1 (2026-02-02)
 
 
