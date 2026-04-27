@@ -9,6 +9,14 @@
 
 <!-- towncrier release notes start -->
 
+## 2.0.1 (2026-04-27)
+
+
+### Bug fixes:
+
+- Pin `langchain-openai` to version `0.3.35` for compatibility with `typing_extensions<4.13` as requested by Plone `6.0.15` constraints. @arybakov05
+- Fixed tests for `helper` file. @arybakov05
+
 ## 2.0.0 (2026-02-13)
 
 
