@@ -97,7 +97,7 @@ You can also install the add-on from the source. In your `mx.ini` file, add:
 ```ini
 [interaktiv.aiclient]
 url = git@github.com:interaktivgmbh/interaktiv.aiclient.git
-rev = v2.0.0
+rev = v2.0.1
 extras = test
 ```
 
@@ -106,7 +106,7 @@ Or using https:
 ```ini
 [interaktiv.aiclient]
 url = https://github.com/interaktivgmbh/interaktiv.aiclient.git
-rev = v2.0.0
+rev = v2.0.1
 extras = test
 ```
 
