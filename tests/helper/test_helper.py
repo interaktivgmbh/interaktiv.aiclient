@@ -115,10 +115,10 @@ class MockResponse:
 
 
 class TestHelper:
-    @mock.patch("interaktiv.aiclient.vocabularies.models.requests.get")
-    def test_get_model_name_from_slug(self, mock_requests_get, portal):
+    @mock.patch("interaktiv.aiclient.vocabularies.models.get_openrouter_models")
+    def test_get_model_name_from_slug(self, mock_get_models, portal):
         # setup
-        mock_requests_get.return_value = MockResponse(SAMPLE_RESPONSE)
+        mock_get_models.return_value = SAMPLE_RESPONSE["data"]
         vocabulary = model_vocabulary(None)
 
         # pre condition
@@ -143,10 +143,10 @@ class TestHelper:
         # post condition
         assert res == "google/gemini-2.5-flash-image"
 
-    @mock.patch("interaktiv.aiclient.vocabularies.models.requests.get")
-    def test_get_model_name_from_slug__not_found(self, mock_requests_get, portal):
+    @mock.patch("interaktiv.aiclient.vocabularies.models.get_openrouter_models")
+    def test_get_model_name_from_slug__not_found(self, mock_get_models, portal):
         # setup
-        mock_requests_get.return_value = MockResponse(SAMPLE_RESPONSE)
+        mock_get_models.return_value = SAMPLE_RESPONSE["data"]
         vocabulary = model_vocabulary(None)
 
         # pre condition
