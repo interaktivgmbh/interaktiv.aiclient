@@ -21,10 +21,13 @@ class IAIClient(Interface):
     def reload():
         """Re-initialize the client with current configuration."""
 
-    def call(messages: List[Dict[str, Any]]) -> Optional[str]:
-        """Sends a prompt to the AI model and return the response."""
+    def call(messages: List[Dict[str, Any]], **options) -> Optional[str]:
+        """Sends a prompt to the AI model and return the response.
+
+        Keyword options are passed to the chat completions request.
+        """
 
     def batch(
-        messages_list: List[List[Dict[str, Any]]],
+        messages_list: List[List[Dict[str, Any]]], **options
     ) -> List[Optional[str]]:
         """Send multiple prompts concurrently and return all responses."""

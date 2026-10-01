@@ -43,3 +43,6 @@ var/
 /venv/
 constraints*.txt
 requirements*.txt
+
+# compiled translations, generated at runtime
+*.mo

@@ -21,4 +21,13 @@
       handler="interaktiv.aiclient.upgrades.update_registry.upgrade"
       />
 
+  <genericsetup:upgradeStep
+      title="Raise the default maximum concurrent requests to 10"
+      description="Only changes the value if the old default of 5 is still set."
+      profile="interaktiv.aiclient:default"
+      source="1020"
+      destination="1030"
+      handler="interaktiv.aiclient.upgrades.v1020_to_v1030.upgrade"
+      />
+
 </configure>

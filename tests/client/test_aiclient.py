@@ -1,28 +1,21 @@
 from interaktiv.aiclient.client import AIClient
 from interaktiv.aiclient.client import AIClientInitializationError
-from interaktiv.aiclient.interfaces import IAIClient
-from openai import APIConnectionError
-from openai import APIStatusError
-from openai import APITimeoutError
-from openai import BadRequestError
-from openai import InternalServerError
-from openai import RateLimitError
 from plone import api
-from unittest import mock
-from zope.component import getUtility
 
 import pytest
 
 
+def user(text):
+    return [{"role": "user", "content": text}]
+
+
 class TestAIClient:
     # noinspection PyUnusedLocal
-    @mock.patch("interaktiv.aiclient.client.ChatOpenAI")
-    def test_initialisation(self, mock_chatopenai, portal):
-        ai_client: AIClient = getUtility(IAIClient)
-
+    def test_initialisation(self, portal, fresh_ai_client):
+        # pre condition
         # should fail because no API key is set
         with pytest.raises(AIClientInitializationError):
-            ai_client.reload()
+            fresh_ai_client.reload()
 
         api.portal.set_registry_record(
             "interaktiv.aiclient.openrouter_api_key", "api_key"
@@ -30,163 +23,137 @@ class TestAIClient:
 
         # should fail because no model is selected
         with pytest.raises(AIClientInitializationError):
-            ai_client.reload()
+            fresh_ai_client.reload()
 
-        api.portal.set_registry_record(
-            "interaktiv.aiclient.openrouter_model", "google/gemini-2.5-flash-image"
-        )
-
-        # this should not raise - both API key and model are set
-        ai_client.reload()
-        assert ai_client._client is not None
-
-    # noinspection PyUnusedLocal
-    @mock.patch("interaktiv.aiclient.client.ChatOpenAI")
-    def test_call(self, mock_chatopenai, portal):
         # setup
-        mock_client_instance = mock_chatopenai.return_value
-
-        mock_response = mock.MagicMock()
-        mock_response.content = "Hello world!"
-
-        async def mock_ainvoke(messages):
-            return mock_response
-
-        mock_client_instance.ainvoke = mock_ainvoke
-
-        ai_client: AIClient = getUtility(IAIClient)
-
-        api.portal.set_registry_record(
-            "interaktiv.aiclient.openrouter_api_key", "api_key"
-        )
         api.portal.set_registry_record(
             "interaktiv.aiclient.openrouter_model", "google/gemini-2.5-flash-image"
         )
 
         # do it
-        res = ai_client.call([{"role": "user", "content": "Hello!"}])
+        fresh_ai_client.reload()
 
         # post condition
-        assert res == "Hello world!"
+        assert fresh_ai_client._client is not None
+        assert fresh_ai_client.selected_model == "google/gemini-2.5-flash-image"
+
+    # noinspection PyUnusedLocal
+    def test_call_without_configuration(self, portal, fresh_ai_client):
+        # do it
+        with pytest.raises(AIClientInitializationError):
+            fresh_ai_client.call(user("Hello"))
+
+    # noinspection PyUnusedLocal
+    def test_batch_without_configuration(self, portal, fresh_ai_client):
+        # do it
+        with pytest.raises(AIClientInitializationError):
+            fresh_ai_client.batch([user("Hello")])
+
+    def test_reload_applies_new_settings(self, ai_client, openrouter):
+        # setup
+        api.portal.set_registry_record(
+            "interaktiv.aiclient.openrouter_model", "mistralai/mistral-small"
+        )
+
+        # do it
+        ai_client.reload()
+        ai_client.call(user("Hello"))
+
+        # post condition
+        body = openrouter.bodies[-1]
+        assert body["model"] == "mistralai/mistral-small"
+        assert body["provider"] == {"only": ["Mistral"]}
+
+    # noinspection PyUnusedLocal
+    def test_call(self, ai_client: AIClient, openrouter):
+        # do it
+        res = ai_client.call(user("Hello!"))
+
+        # post condition
+        assert res == "echo: Hello!"
         assert ai_client.selected_model == "google/gemini-2.5-flash-image"
 
-    # noinspection PyUnusedLocal
-    @mock.patch("interaktiv.aiclient.client.ChatOpenAI")
-    def test_client_handles_errors(self, mock_chatopenai, portal):
+    def test_call_sends_key_and_model(self, ai_client, openrouter):
+        # do it
+        ai_client.call(user("Hello!"))
+
+        # post condition
+        _, headers, body = openrouter.requests[-1]
+        assert headers["authorization"] == "Bearer test-key"
+        assert body == {
+            "model": "google/gemini-2.5-flash-image",
+            "messages": [{"role": "user", "content": "Hello!"}],
+            "stream": False,
+        }
+
+    @pytest.mark.parametrize("marker", ["case:400", "case:429", "case:500"])
+    def test_client_handles_errors(self, ai_client, marker):
+        # do it
+        res = ai_client.call(user(marker))
+
+        # post condition
+        assert res is None
+
+    def test_client_handles_timeout(self, ai_client, openrouter):
         # setup
-        ai_client: AIClient = getUtility(IAIClient)
+        openrouter.slow_seconds = 1.5
 
-        api.portal.set_registry_record(
-            "interaktiv.aiclient.openrouter_api_key", "api_key"
-        )
-        api.portal.set_registry_record(
-            "interaktiv.aiclient.openrouter_model", "google/gemini-2.5-flash-image"
-        )
+        # do it
+        res = ai_client.call(user("case:slow"))
 
-        # create new client instance with the new mocked ChatOpenAI client
+        # post condition
+        assert res is None
+
+    def test_client_handles_unreachable_server(self, ai_client):
+        # setup
+        api.portal.set_registry_record(
+            "interaktiv.aiclient.openrouter_api_url", "http://127.0.0.1:9/api/v1"
+        )
         ai_client.reload()
 
-        api_status_error_params = {
-            "message": "Test error",
-            "response": mock.MagicMock(),
-            "body": None,
-        }
-
-        errors = {
-            APIStatusError: api_status_error_params,
-            APITimeoutError: {"request": mock.MagicMock()},
-            APIConnectionError: {"message": "Test error", "request": mock.MagicMock()},
-            RateLimitError: api_status_error_params,
-            BadRequestError: api_status_error_params,
-            InternalServerError: api_status_error_params,
-        }
-
         # do it
-        for error_cls, params in errors.items():
-            mock_client_instance = mock_chatopenai.return_value
-
-            async def mock_ainvoke_error(messages, error_cls=error_cls, params=params):
-                err = error_cls(**params)
-                raise err
-
-            mock_client_instance.ainvoke = mock_ainvoke_error
-
-            # this should not raise
-            res = ai_client.call([{"role": "user", "content": "Hello!"}])
-
-            # post condition
-            assert res is None
-
-    # noinspection PyUnusedLocal
-    @mock.patch("interaktiv.aiclient.client.ChatOpenAI")
-    def test_batch_success(self, mock_chatopenai, portal):
-        # setup
-        mock_client_instance = mock_chatopenai.return_value
-
-        async def mock_ainvoke(messages):
-            response = mock.MagicMock()
-            response.content = f"Response to: {messages[0]['content']}"
-            return response
-
-        mock_client_instance.ainvoke = mock_ainvoke
-
-        ai_client: AIClient = getUtility(IAIClient)
-
-        api.portal.set_registry_record(
-            "interaktiv.aiclient.openrouter_api_key", "api_key"
-        )
-        api.portal.set_registry_record(
-            "interaktiv.aiclient.openrouter_model", "google/gemini-2.5-flash-image"
-        )
-
-        # do it
-        messages_list = [
-            [{"role": "user", "content": "Hello!"}],
-            [{"role": "user", "content": "World!"}],
-        ]
-        results = ai_client.batch(messages_list)
+        res = ai_client.call(user("Hello"))
 
         # post condition
-        assert len(results) == 2
-        assert results[0] == "Response to: Hello!"
-        assert results[1] == "Response to: World!"
+        assert res is None
 
-    # noinspection PyUnusedLocal
-    @mock.patch("interaktiv.aiclient.client.ChatOpenAI")
-    def test_batch_partial_failure(self, mock_chatopenai, portal):
+    def test_batch_success(self, ai_client):
         # setup
-        mock_client_instance = mock_chatopenai.return_value
-
-        async def mock_ainvoke(messages):
-            if "fail" in messages[0]["content"]:
-                raise BadRequestError(
-                    message="Test error", response=mock.MagicMock(), body=None
-                )
-            response = mock.MagicMock()
-            response.content = f"Response to: {messages[0]['content']}"
-            return response
-
-        mock_client_instance.ainvoke = mock_ainvoke
-
-        ai_client: AIClient = getUtility(IAIClient)
-
-        api.portal.set_registry_record(
-            "interaktiv.aiclient.openrouter_api_key", "api_key"
-        )
-        api.portal.set_registry_record(
-            "interaktiv.aiclient.openrouter_model", "google/gemini-2.5-flash-image"
-        )
+        prompts = [user(f"case:sleep {i}") for i in range(6)]
 
         # do it
-        messages_list = [
-            [{"role": "user", "content": "Hello!"}],
-            [{"role": "user", "content": "fail"}],
-            [{"role": "user", "content": "World!"}],
-        ]
-        results = ai_client.batch(messages_list)
+        results = ai_client.batch(prompts)
 
         # post condition
-        assert len(results) == 3
-        assert results[0] == "Response to: Hello!"
-        assert results[1] is None  # failed
-        assert results[2] == "Response to: World!"
+        assert results == [f"echo: case:sleep {i}" for i in range(6)]
+
+    def test_batch_partial_failure(self, ai_client):
+        # setup
+        prompts = [
+            user("Hello!"),
+            user("case:400"),
+            None,
+            [],
+            user("case:err200"),
+            user("World!"),
+        ]
+
+        # do it
+        results = ai_client.batch(prompts)
+
+        # post condition
+        assert len(results) == 6
+        assert results[0] == "echo: Hello!"
+        assert results[1] is None  # API error
+        assert results[2] is None  # no prompt
+        assert results[3] is None  # empty prompt
+        assert isinstance(results[4], ValueError)  # error payload, as exception
+        assert results[5] == "echo: World!"
+
+    def test_batch_empty(self, ai_client, openrouter):
+        # do it
+        results = ai_client.batch([])
+
+        # post condition
+        assert results == []
+        assert openrouter.requests == []
