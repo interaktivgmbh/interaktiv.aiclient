@@ -1,0 +1,1 @@
+Fix prompts being sent twice due to stale connections. @arybakov05

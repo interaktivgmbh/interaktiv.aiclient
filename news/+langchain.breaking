@@ -1,0 +1,1 @@
+Replace `langchain-openai` with the `openai` client. Prompts must be OpenAI-style message dicts. @arybakov05
