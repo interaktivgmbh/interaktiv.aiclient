@@ -32,12 +32,7 @@ from interaktiv.aiclient.client import AIClient
 from interaktiv.aiclient.interfaces import IAIClient
 from zope.component import getUtility
 
-prompt = [
-    {
-        "role": "user",
-        "content": "Hello World!"
-    }
-]
+prompt = [{"role": "user", "content": "Hello World!"}]
 
 ai_client: AIClient = getUtility(IAIClient)
 response = ai_client.call(prompt)
@@ -52,18 +47,8 @@ from interaktiv.aiclient.interfaces import IAIClient
 from zope.component import getUtility
 
 prompts = [
-    [
-        {
-            "role": "user",
-            "content": "This is the first prompt."
-        }
-    ],
-    [
-        {
-            "role": "user",
-            "content": "And this is the second prompt."
-        }
-    ]
+    [{"role": "user", "content": "This is the first prompt."}],
+    [{"role": "user", "content": "And this is the second prompt."}],
 ]
 
 ai_client: AIClient = getUtility(IAIClient)
