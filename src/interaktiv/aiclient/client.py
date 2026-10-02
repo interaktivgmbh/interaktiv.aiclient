@@ -86,6 +86,13 @@ class AIClient:
         """
         self.__ensure_initialised(force=True)
 
+    def reset(self) -> None:
+        """Forget the client and its configuration, e.g. after uninstalling."""
+        with self._lock:
+            self._client = None
+            self._selected_model = None
+            self._extra_body = None
+
     def call(self, messages: Prompt, **options: Any) -> Response:
         """Send one prompt.
 

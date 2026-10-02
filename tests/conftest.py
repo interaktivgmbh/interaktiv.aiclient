@@ -51,11 +51,9 @@ def openrouter_models():
 def fresh_ai_client():
     """The client is a global utility: start every test uninitialised."""
     client = getUtility(IAIClient)
-    client._client = None
-    client._selected_model = None
+    client.reset()
     yield client
-    client._client = None
-    client._selected_model = None
+    client.reset()
 
 
 @pytest.fixture

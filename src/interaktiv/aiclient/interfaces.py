@@ -18,8 +18,11 @@ class IAIClient(Interface):
     selected_model: Optional[str]
     """The currently selected model identifier, or None if not initialized."""
 
-    def reload():
+    def reload() -> None:
         """Re-initialize the client with current configuration."""
+
+    def reset() -> None:
+        """Forget the client and its configuration until the next use."""
 
     def call(messages: List[Dict[str, Any]], **options) -> Optional[str]:
         """Sends a prompt to the AI model and return the response.
