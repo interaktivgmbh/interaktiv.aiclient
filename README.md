@@ -4,7 +4,7 @@
 
 This is a simple OpenRouter integration for Plone.
 
-Tested for Plone `6.0.15`
+Tested with Plone 6.0, 6.1 and 6.2.
 
 ## Configuration
 
@@ -32,12 +32,7 @@ from interaktiv.aiclient.client import AIClient
 from interaktiv.aiclient.interfaces import IAIClient
 from zope.component import getUtility
 
-prompt = [
-    {
-        "role": "user",
-        "content": "Hello World!"
-    }
-]
+prompt = [{"role": "user", "content": "Hello World!"}]
 
 ai_client: AIClient = getUtility(IAIClient)
 response = ai_client.call(prompt)
@@ -52,18 +47,8 @@ from interaktiv.aiclient.interfaces import IAIClient
 from zope.component import getUtility
 
 prompts = [
-    [
-        {
-            "role": "user",
-            "content": "This is the first prompt."
-        }
-    ],
-    [
-        {
-            "role": "user",
-            "content": "And this is the second prompt."
-        }
-    ]
+    [{"role": "user", "content": "This is the first prompt."}],
+    [{"role": "user", "content": "And this is the second prompt."}],
 ]
 
 ai_client: AIClient = getUtility(IAIClient)
@@ -72,6 +57,40 @@ result = ai_client.batch(prompts)
 
 The order is preserved in the result, meaning that you can map the prompt index
 to the response index. This is a good use case for python's `zip` function.
+
+Failed requests (after the configured retries) return `None`; in a batch,
+other errors are returned in place of the answer.
+
+Keyword arguments are passed on to the chat completions request, for `call`
+and for every prompt of a `batch`. Parameters only OpenRouter knows go into
+`extra_body`:
+
+```python
+ai_client.call(
+    prompt,
+    max_tokens=500,
+    temperature=0.2,
+    extra_body={"reasoning": {"enabled": False}},
+)
+```
+
+Unknown parameters raise a `TypeError` right away, also in `batch`.
+
+Prompts use the message format of the OpenAI chat completions API, which
+OpenRouter implements and are sent unchanged. Content can also be a list of parts, e.g. for images:
+
+```python
+prompt = [
+    {"role": "system", "content": "Answer in one sentence."},
+    {
+        "role": "user",
+        "content": [
+            {"type": "text", "text": "What does this picture show?"},
+            {"type": "image_url", "image_url": {"url": "data:image/png;base64,..."}},
+        ],
+    },
+]
+```
 
 For more information on how to construct prompts, please refer to the
 [OpenAI docs](https://platform.openai.com/docs/overview).
@@ -97,7 +116,7 @@ You can also install the add-on from the source. In your `mx.ini` file, add:
 ```ini
 [interaktiv.aiclient]
 url = git@github.com:interaktivgmbh/interaktiv.aiclient.git
-rev = v2.0.1
+rev = v3.0.0
 extras = test
 ```
 
@@ -106,7 +125,7 @@ Or using https:
 ```ini
 [interaktiv.aiclient]
 url = https://github.com/interaktivgmbh/interaktiv.aiclient.git
-rev = v2.0.1
+rev = v3.0.0
 extras = test
 ```
 

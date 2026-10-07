@@ -37,7 +37,7 @@ class IAIClientSettings(Interface):
             "If you see a lot of retries in the logs when running prompts "
             "in batch, you should reduce this value."
         ),
-        default=5,
+        default=10,
     )
 
     timeout = schema.Float(

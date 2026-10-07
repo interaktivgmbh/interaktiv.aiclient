@@ -4,7 +4,7 @@ dynamic = ["version"]
 description = "OpenRouter integration with Plone"
 readme = "README.md"
 license = "GPL-2.0-only"
-requires-python = ">=3.10,<3.14"
+requires-python = ">=3.10"
 authors = [
     { name = "Interaktiv GmbH", email = "info@interaktiv.de" },
 ]
@@ -21,6 +21,7 @@ classifiers = [
     "Framework :: Plone",
     "Framework :: Plone :: 6.0",
     "Framework :: Plone :: 6.1",
+    "Framework :: Plone :: 6.2",
     "Framework :: Plone :: Addon",
     "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
     "Operating System :: OS Independent",
@@ -29,12 +30,14 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
 ]
 dependencies = [
-    "langchain-openai==0.3.35",
+    "openai>=1.55.3,<4",
     "Products.CMFPlone",
     "plone.api",
     "plone.restapi",
+    "requests",
 ]
 
 [project.optional-dependencies]
