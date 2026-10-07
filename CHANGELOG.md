@@ -9,6 +9,26 @@
 
 <!-- towncrier release notes start -->
 
+## 3.0.0 (2026-10-07)
+
+
+### Breaking changes:
+
+- Replace `langchain-openai` with the `openai` client. Prompts must be OpenAI-style message dicts. @arybakov05 
+
+
+### New features:
+
+- Added proper uninstall profile. @arybakov05 
+- Raise the default `max_concurrent_requests` from 5 to 10. @arybakov05 
+- Support Plone 6.2 and Python 3.14. @arybakov05 
+- `call` and `batch` pass keyword arguments on to the request. @arybakov05 
+
+
+### Bug fixes:
+
+- Fix prompts being sent twice due to stale connections. @arybakov05 
+
 ## 2.0.1 (2026-04-27)
 
 
